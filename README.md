@@ -29,5 +29,15 @@ curl -X GET http://localhost:7012/year/supplier/XXXXXX/
 
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
 
-
+### Example stub data
+Approval Id             Status code
+ABCD1234567EF           200
+AAAA0000000BB           204
+AAA00000400BB           400
+AAAA0000401BB           401
+AAAA0000403BB           403
+AAAA0000404BB           404
+AAAA0000409BB           409
+AAAA0000500BB           500
+AAAA0000503BB           503
 
