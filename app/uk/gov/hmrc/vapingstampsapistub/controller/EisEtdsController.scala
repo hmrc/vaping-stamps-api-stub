@@ -35,7 +35,6 @@ class EisEtdsController @Inject() (
   def checkApprovalStatus(vdsApprovalId: String): Action[AnyContent] = Action { implicit request =>
     logger.info(s"Checking approval status for vdsApprovalId=$vdsApprovalId")
 
-    // ---- 400: invalid approval id format
     if (!approvalIdRegex.matches(vdsApprovalId)) {
       BadRequest(Json.obj(
         "code" -> "INVALID_REQUEST",
@@ -44,7 +43,6 @@ class EisEtdsController @Inject() (
     } else {
       vdsApprovalId match {
 
-        // ---- 200: approved status
         case "ABCD1234567EF" =>
           Ok(Json.toJson(
             BusinessApproval(
@@ -60,41 +58,39 @@ class EisEtdsController @Inject() (
             )
           ))
 
-        // ---- 204: processed successfully, no content
         case "AAAA0000000BB" =>
           NoContent
 
-        // ---- 401: unauthorized
         case "AAAA0000401BB" =>
           Unauthorized(Json.obj(
             "code" -> "UNAUTHORISED",
             "message" -> "Authentication credentials are missing or invalid."
           ))
-        // ---- 403: forbidden
+
         case "AAAA0000403BB" =>
           Forbidden(Json.obj(
             "code" -> "FORBIDDEN",
             "message" -> "You are not authorised to access this resource."
           ))
-        // ---- 409: conflict
+
         case "AAAA0000409BB" =>
           Conflict(Json.obj(
             "code" -> "CONFLICT",
             "message" -> "The request conflicts with the current state of the resource."
           ))
-        // ---- 500: internal server error
+
         case "AAAA0000500BB" =>
           InternalServerError(Json.obj(
             "code" -> "INTERNAL_SERVER_ERROR",
             "message" -> "An unexpected error occurred while processing the request."
           ))
-        // ---- 503: service unavailable
+
         case "AAAA0000503BB" =>
           ServiceUnavailable(Json.obj(
             "code" -> "SERVICE_UNAVAILABLE",
             "message" -> "The service is temporarily unavailable. Please try again later."
           ))
-        // ---- 404: not found
+
         case _ =>
           NotFound(Json.obj(
             "code" -> "NOT_FOUND",
