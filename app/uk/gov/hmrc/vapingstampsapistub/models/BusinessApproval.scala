@@ -30,6 +30,6 @@ case class BusinessApproval(
                              stampThreshold: Long
                            )
 
-object BusinessApproval {
-  implicit val format: OFormat[BusinessApproval] = Json.format[BusinessApproval]
-}
+object BusinessApproval:
+  given OFormat[BusinessApproval] = Json.format[BusinessApproval]
+
