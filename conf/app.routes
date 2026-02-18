@@ -1,1 +1,4 @@
 # microservice specific routes
+
+GET   /etds/vaping/stamps/:vdsApprovalId/status   uk.gov.hmrc.vapingstampsapistub.controller.EisEtdsController.checkApprovalStatus(vdsApprovalId: String)
+
