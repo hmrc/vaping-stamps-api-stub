@@ -26,9 +26,8 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class EisEtdsController @Inject() (
-                                    cc: ControllerComponents
-                                  ) extends BackendController(cc)
-  with Logging:
+  cc: ControllerComponents
+) extends BackendController(cc) with Logging:
 
   private val approvalIdRegex = "^[A-Z]{4}[0-9]{7}[A-Z]{2}$".r
 
