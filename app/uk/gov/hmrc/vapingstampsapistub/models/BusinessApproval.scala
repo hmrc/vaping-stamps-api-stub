@@ -19,17 +19,16 @@ package uk.gov.hmrc.vapingstampsapistub.models
 import play.api.libs.json.{Json, OFormat}
 
 case class BusinessApproval(
-                             approvalStatus: String,
-                             businessName: String,
-                             registeredBusinessAddress: String,
-                             correspondenceAddress: String,
-                             contactName: String,
-                             contactTelephone: String,
-                             contactEmail: String,
-                             approvalNumber: String,
-                             stampThreshold: Long
-                           )
+  approvalStatus: String,
+  businessName: String,
+  registeredBusinessAddress: String,
+  correspondenceAddress: String,
+  contactName: String,
+  contactTelephone: String,
+  contactEmail: String,
+  approvalNumber: String,
+  stampThreshold: Long
+)
 
 object BusinessApproval:
   given OFormat[BusinessApproval] = Json.format[BusinessApproval]
-
