@@ -20,19 +20,18 @@ To test the stub endpoints for Vaping Stamps
 curl -X GET http://localhost:7012/etds/vaping/stamps/XXXXXXXXXXX/status
 
 ### Example stub data
-Approval Id             Status code
-AAAA0000200BB           200
-AAAA0000204BB           204
-AAAA0000400BB           400
-AAAA0000401BB           401
-AAAA0000403BB           403
-AAAA0000404BB           404
-AAAA0000409BB           409
-AAAA0000500BB           500
-AAAA0000503BB           503
+|Approval Id  | Status code |
+|-------------|-------------|
+|GBVA0000200DS| 200         |
+|GBVA0000204DS| 204         |
+|GBVA0000400DS| 400         |
+|GBVA0000401DS| 401         |
+|GBVA0000403DS| 403         |
+|GBVA0000404DS| 404         |
+|GBVA0000409DS| 409         |
+|GBVA0000500DS| 500         |
+|GBVA0000503DS| 503         |
 
 ### License
 
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
-
-
