@@ -29,13 +29,14 @@ class EisEtdsController @Inject() (
   cc: ControllerComponents
 ) extends BackendController(cc) with Logging:
 
-  private val approvalIdRegex = "^[A-Z]{4}[0-9]{7}[A-Z]{2}$".r
+  private val approvalIdRegex = "^GBVA[0-9]{7}DS$".r
 
   def checkApprovalStatus(vdsApprovalId: String): Action[AnyContent] =
     Action { implicit request =>
       logger.info(s"Checking approval status for vdsApprovalId=$vdsApprovalId")
 
       if !approvalIdRegex.matches(vdsApprovalId) then
+        logger.info(s"The request payload is invalid or malformed: $vdsApprovalId.")
         BadRequest(
           Json.obj(
             "code"    -> "INVALID_REQUEST",
@@ -45,7 +46,7 @@ class EisEtdsController @Inject() (
       else
         vdsApprovalId match
 
-          case "AAAA0000200BB" =>
+          case "GBVA0000200DS" =>
             Ok(
               Json.toJson(
                 BusinessApproval(
@@ -62,10 +63,10 @@ class EisEtdsController @Inject() (
               )
             )
 
-          case "AAAA0000204BB" =>
+          case "GBVA0000204DS" =>
             NoContent
 
-          case "AAAA0000401BB" =>
+          case "GBVA0000401DS" =>
             Unauthorized(
               Json.obj(
                 "code"    -> "UNAUTHORISED",
@@ -73,7 +74,7 @@ class EisEtdsController @Inject() (
               )
             )
 
-          case "AAAA0000403BB" =>
+          case "GBVA0000403DS" =>
             Forbidden(
               Json.obj(
                 "code"    -> "FORBIDDEN",
@@ -81,7 +82,7 @@ class EisEtdsController @Inject() (
               )
             )
 
-          case "AAAA0000409BB" =>
+          case "GBVA0000409DS" =>
             Conflict(
               Json.obj(
                 "code"    -> "CONFLICT",
@@ -89,7 +90,7 @@ class EisEtdsController @Inject() (
               )
             )
 
-          case "AAAA0000500BB" =>
+          case "GBVA0000500DS" =>
             InternalServerError(
               Json.obj(
                 "code"    -> "INTERNAL_SERVER_ERROR",
@@ -97,7 +98,7 @@ class EisEtdsController @Inject() (
               )
             )
 
-          case "AAAA0000503BB" =>
+          case "GBVA0000503DS" =>
             ServiceUnavailable(
               Json.obj(
                 "code"    -> "SERVICE_UNAVAILABLE",
