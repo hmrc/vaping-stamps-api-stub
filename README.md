@@ -17,7 +17,14 @@ sbt 'run 7012'
 
 To test the stub endpoints for Vaping Stamps
 
-curl -X GET http://localhost:7012/etds/vaping/stamps/XXXXXXXXXXX/status
+GET
+curl -X GET http://localhost:7012/etds/vaping/stamps/GBVA0000200DS/status
+
+POST
+curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
+-H "Content-Type: application/json" \
+-H "Accept: application/vnd.hmrc.1.0+json" \
+-d '{ "contactEmail": "test@test.com", "vdsApprovalId": "GBVA0000200DS" }'
 
 ### Example stub data
 |Approval Id  | Status code |
