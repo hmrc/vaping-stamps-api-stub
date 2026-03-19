@@ -43,7 +43,8 @@ class EisEtdsController @Inject() (
                 "code"    -> "INVALID_REQUEST",
                 "message" -> "The request payload is invalid or malformed."
               )
-            ),
+            )
+          ,
           req => processRequest(req.vdsApprovalId)
         )
     }
