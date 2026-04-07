@@ -35,7 +35,7 @@ class EisEtdsController @Inject() (
     Action { implicit request =>
       logger.info(s"Checking approval status for vdsApprovalId=$vdsApprovalId")
 
-      if !approvalIdRegex.matches(vdsApprovalId) then
+      if vdsApprovalId == "GBVA0000400DS" || !approvalIdRegex.matches(vdsApprovalId) then
         logger.info(s"The request payload is invalid or malformed: $vdsApprovalId.")
         BadRequest(
           Json.obj(
