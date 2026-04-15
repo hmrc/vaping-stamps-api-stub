@@ -36,16 +36,20 @@ object ExpectedResponses {
   )
 
   val badRequestJson: JsObject = errorJsonBuilder("INVALID_REQUEST", "The request payload is invalid or malformed.")
-  val unauthorizedJson: JsObject = errorJsonBuilder("UNAUTHORISED", "Authentication credentials are missing or invalid.")
+  val unauthorizedJson: JsObject =
+    errorJsonBuilder("UNAUTHORISED", "Authentication credentials are missing or invalid.")
   val forbiddenJson: JsObject = errorJsonBuilder("FORBIDDEN", "You are not authorised to access this resource.")
   val notFoundJson: JsObject = errorJsonBuilder("NOT_FOUND", "The requested approval could not be found.")
-  val conflictJson: JsObject = errorJsonBuilder("CONFLICT", "The request conflicts with the current state of the resource.")
-  val internalServerErrorJson: JsObject = errorJsonBuilder("INTERNAL_SERVER_ERROR", "An unexpected error occurred while processing the request.")
-  val serviceUnavailableJson: JsObject = errorJsonBuilder("SERVICE_UNAVAILABLE", "The service is temporarily unavailable. Please try again later.")
+  val conflictJson: JsObject =
+    errorJsonBuilder("CONFLICT", "The request conflicts with the current state of the resource.")
+  val internalServerErrorJson: JsObject =
+    errorJsonBuilder("INTERNAL_SERVER_ERROR", "An unexpected error occurred while processing the request.")
+  val serviceUnavailableJson: JsObject =
+    errorJsonBuilder("SERVICE_UNAVAILABLE", "The service is temporarily unavailable. Please try again later.")
 
   private def errorJsonBuilder(code: String, message: String): JsObject =
     Json.obj(
-      "code" -> code,
+      "code"    -> code,
       "message" -> message
     )
 }

@@ -36,15 +36,15 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
         val invalidBody: JsObject = Json.obj("invalidField" -> JsBoolean(true))
         val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(invalidBody)
         val response = controller.checkApprovalStatus().apply(request)
-        
+
         status(response) shouldBe BAD_REQUEST
-        
+
         contentAsJson(response) shouldBe badRequestJson
       }
 
       "Invalid vdsApprovalId is supplied" in {
         val invalidBody = Json.obj(
-          "contactEmail" -> "email@example.com",
+          "contactEmail"  -> "email@example.com",
           "vdsApprovalId" -> "approvalId"
         )
         val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(invalidBody)
@@ -56,8 +56,6 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
       }
     }
 
-
-
     Seq(
       (OK, "GBVA0000200DS", successJson),
       (UNAUTHORIZED, "GBVA0000401DS", unauthorizedJson),
@@ -65,20 +63,19 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
       (NOT_FOUND, "GBVA0000404DS", notFoundJson),
       (CONFLICT, "GBVA0000409DS", conflictJson),
       (INTERNAL_SERVER_ERROR, "GBVA0000500DS", internalServerErrorJson),
-      (SERVICE_UNAVAILABLE, "GBVA0000503DS", serviceUnavailableJson),
-    ) foreach{
-      case (statusCode, approvalId, json) =>
-        s"return $statusCode when request made for id $approvalId" in {
-          val requestBody = Json.obj(
-            "contactEmail" -> "email@example.com",
-            "vdsApprovalId" -> approvalId
-          )
-          val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
-          val response = controller.checkApprovalStatus().apply(request)
+      (SERVICE_UNAVAILABLE, "GBVA0000503DS", serviceUnavailableJson)
+    ) foreach { case (statusCode, approvalId, json) =>
+      s"return $statusCode when request made for id $approvalId" in {
+        val requestBody = Json.obj(
+          "contactEmail"  -> "email@example.com",
+          "vdsApprovalId" -> approvalId
+        )
+        val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
+        val response = controller.checkApprovalStatus().apply(request)
 
-          status(response) shouldBe statusCode
-          contentAsJson(response) shouldBe json
-        }
+        status(response) shouldBe statusCode
+        contentAsJson(response) shouldBe json
+      }
     }
 
   }
