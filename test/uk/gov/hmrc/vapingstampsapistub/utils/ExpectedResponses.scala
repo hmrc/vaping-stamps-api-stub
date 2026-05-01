@@ -25,13 +25,12 @@ object ExpectedResponses {
     BusinessApproval(
       approvalStatus = "APPROVED",
       businessName = "Example Trading Ltd",
-      registeredBusinessAddress = "10 Example Street, London, SW1A 1AA",
-      correspondenceAddress = "PO Box 123, London, SW1A 2AB",
-      contactName = "Jane Smith",
-      contactTelephone = "+44 20 7946 0123",
-      contactEmail = "jane.smith@example.com",
-      approvalNumber = "GBVA0000200DS",
-      stampThreshold = 500000
+      addressLine1 = "10 Example Street",
+      addressLine2 = Some("London"),
+      postCode = "SW1A 1AA",
+      contactName = Some("Jane Smith"),
+      telephoneNumber = Some("+44 20 7946 0123"),
+      stampsThreshold = 500000
     )
   )
 
