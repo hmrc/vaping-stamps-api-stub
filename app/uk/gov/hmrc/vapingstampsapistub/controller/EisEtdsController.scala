@@ -40,8 +40,9 @@ class EisEtdsController @Inject() (
             logger.error(s"The request payload is invalid or malformed.")
             BadRequest(
               Json.obj(
-                "code"    -> "INVALID_REQUEST",
-                "message" -> "The request payload is invalid or malformed."
+                "datetime" -> "2021-12-17T09:30:47Z",
+                "errorCode"    -> Seq("001", "002", "010"),
+                "errorMessage" -> "The request payload is invalid or malformed."
               )
             )
           ,
@@ -60,8 +61,9 @@ class EisEtdsController @Inject() (
       logger.error(s"The request payload is invalid or malformed: $vdsApprovalId.")
       BadRequest(
         Json.obj(
-          "code"    -> "INVALID_REQUEST",
-          "message" -> "The request payload is invalid or malformed."
+          "datetime" -> "2021-12-17T09:30:47Z",
+          "errorCode"    -> Seq("001", "002", "010"),
+          "errorMessage" -> "The request payload is invalid or malformed."
         )
       )
     else
@@ -82,54 +84,34 @@ class EisEtdsController @Inject() (
               )
             )
           )
-
-        case "GBVA0000204DS" =>
-          NoContent
-
         case "GBVA0000401DS" =>
           Unauthorized(
             Json.obj(
-              "code"    -> "UNAUTHORISED",
-              "message" -> "Authentication credentials are missing or invalid."
+              "datetime"     -> "2021-12-17T09:30:47Z",
+              "errorCode"    -> Seq("001"),
+              "errorMessage" -> "Authentication credentials are missing or invalid."
             )
           )
-
         case "GBVA0000403DS" =>
           Forbidden(
             Json.obj(
-              "code"    -> "FORBIDDEN",
-              "message" -> "You are not authorised to access this resource."
+              "datetime"     -> "2021-12-17T09:30:47Z",
+              "errorCode"    -> Seq("001"),
+              "errorMessage" -> "You are not authorised to access this resource."
             )
           )
-
-        case "GBVA0000409DS" =>
-          Conflict(
-            Json.obj(
-              "code"    -> "CONFLICT",
-              "message" -> "The request conflicts with the current state of the resource."
-            )
-          )
-
         case "GBVA0000500DS" =>
           InternalServerError(
             Json.obj(
-              "code"    -> "INTERNAL_SERVER_ERROR",
-              "message" -> "An unexpected error occurred while processing the request."
+              "datetime" -> "2021-12-17T09:30:47Z",
+              "message"  -> "An unexpected error occurred while processing the request."
             )
           )
-
-        case "GBVA0000503DS" =>
-          ServiceUnavailable(
-            Json.obj(
-              "code"    -> "SERVICE_UNAVAILABLE",
-              "message" -> "The service is temporarily unavailable. Please try again later."
-            )
-          )
-
         case _ =>
           NotFound(
             Json.obj(
-              "code"    -> "NOT_FOUND",
-              "message" -> "The requested approval could not be found."
+              "datetime"     -> "2021-12-17T09:30:47Z",
+              "errorCode"    -> Seq("001"),
+              "errorMessage" -> "The requested approval could not be found."
             )
           )
