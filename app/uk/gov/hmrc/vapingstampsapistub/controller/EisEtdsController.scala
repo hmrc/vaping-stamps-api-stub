@@ -40,7 +40,7 @@ class EisEtdsController @Inject() (
             logger.error(s"The request payload is invalid or malformed.")
             BadRequest(
               Json.obj(
-                "datetime" -> "2021-12-17T09:30:47Z",
+                "datetime"     -> "2021-12-17T09:30:47Z",
                 "errorCode"    -> Seq("001", "002", "010"),
                 "errorMessage" -> "The request payload is invalid or malformed."
               )
@@ -61,7 +61,7 @@ class EisEtdsController @Inject() (
       logger.error(s"The request payload is invalid or malformed: $vdsApprovalId.")
       BadRequest(
         Json.obj(
-          "datetime" -> "2021-12-17T09:30:47Z",
+          "datetime"     -> "2021-12-17T09:30:47Z",
           "errorCode"    -> Seq("001", "002", "010"),
           "errorMessage" -> "The request payload is invalid or malformed."
         )

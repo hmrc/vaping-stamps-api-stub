@@ -34,21 +34,22 @@ object ExpectedResponses {
     )
   )
 
-  val badRequestJson: JsObject = errorJsonBuilder(Seq("001", "002", "010"), "The request payload is invalid or malformed.")
+  val badRequestJson: JsObject =
+    errorJsonBuilder(Seq("001", "002", "010"), "The request payload is invalid or malformed.")
   val unauthorizedJson: JsObject =
     errorJsonBuilder(Seq("001"), "Authentication credentials are missing or invalid.")
   val forbiddenJson: JsObject = errorJsonBuilder(Seq("001"), "You are not authorised to access this resource.")
   val notFoundJson: JsObject = errorJsonBuilder(Seq("001"), "The requested approval could not be found.")
   val internalServerErrorJson: JsObject =
     Json.obj(
-      "datetime"  -> "2021-12-17T09:30:47Z",
-      "message"   -> "An unexpected error occurred while processing the request."
+      "datetime" -> "2021-12-17T09:30:47Z",
+      "message"  -> "An unexpected error occurred while processing the request."
     )
 
   private def errorJsonBuilder(code: Seq[String], message: String): JsObject =
     Json.obj(
-      "datetime"  -> "2021-12-17T09:30:47Z",
-      "errorCode" -> code,
-      "errorMessage"   -> message
+      "datetime"     -> "2021-12-17T09:30:47Z",
+      "errorCode"    -> code,
+      "errorMessage" -> message
     )
 }
