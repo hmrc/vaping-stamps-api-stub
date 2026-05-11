@@ -61,6 +61,7 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
       (UNAUTHORIZED, "GBVA0000401DS", unauthorizedJson),
       (FORBIDDEN, "GBVA0000403DS", forbiddenJson),
       (NOT_FOUND, "GBVA0000404DS", notFoundJson),
+      (UNPROCESSABLE_ENTITY, "GBVA0000422DS", unprocessableEntityJson),
       (INTERNAL_SERVER_ERROR, "GBVA0000500DS", internalServerErrorJson)
     ) foreach { case (statusCode, approvalId, json) =>
       s"return $statusCode when request made for id $approvalId" in {

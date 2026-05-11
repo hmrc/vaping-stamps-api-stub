@@ -40,6 +40,7 @@ object ExpectedResponses {
     errorJsonBuilder(Seq("001"), "Authentication credentials are missing or invalid.")
   val forbiddenJson: JsObject = errorJsonBuilder(Seq("001"), "You are not authorised to access this resource.")
   val notFoundJson: JsObject = errorJsonBuilder(Seq("001"), "The requested approval could not be found.")
+  val unprocessableEntityJson: JsObject = errorJsonBuilder(Seq("001"), "Business validation failure")
   val internalServerErrorJson: JsObject =
     Json.obj(
       "datetime" -> "2021-12-17T09:30:47Z",

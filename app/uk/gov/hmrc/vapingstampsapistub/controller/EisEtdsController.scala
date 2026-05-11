@@ -100,6 +100,14 @@ class EisEtdsController @Inject() (
               "errorMessage" -> "You are not authorised to access this resource."
             )
           )
+        case "GBVA0000422DS" =>
+          UnprocessableEntity(
+            Json.obj(
+              "datetime"     -> "2021-12-17T09:30:47Z",
+              "errorCode"    -> Seq("001"),
+              "errorMessage" -> "Business validation failure"
+            )
+          )
         case "GBVA0000500DS" =>
           InternalServerError(
             Json.obj(
