@@ -27,17 +27,15 @@ curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
 -d '{ "contactEmail": "test@test.com", "vdsApprovalId": "GBVA0000200DS" }'
 
 ### Example stub data
-|Approval Id  | Status code |
-|-------------|-------------|
-|GBVA0000200DS| 200         |
-|GBVA0000204DS| 204         |
-|GBVA0000400DS| 400         |
-|GBVA0000401DS| 401         |
-|GBVA0000403DS| 403         |
-|GBVA0000404DS| 404         |
-|GBVA0000409DS| 409         |
-|GBVA0000500DS| 500         |
-|GBVA0000503DS| 503         |
+| Approval Id   | Status code |
+|---------------|-------------|
+| GBVA0000200DS | 200         |
+| GBVA0000400DS | 400         |
+| GBVA0000401DS | 401         |
+| GBVA0000403DS | 403         |
+| GBVA0000404DS | 404         |
+| GBVA0000422DS | 422         |
+| GBVA0000500DS | 500         |
 
 ### License
 
