@@ -18,7 +18,7 @@ package uk.gov.hmrc.vapingstampsapistub.controller
 
 import play.api.Logging
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{Action, AnyContent, ControllerComponents}
+import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import uk.gov.hmrc.vapingstampsapistub.models.{ApprovalRequest, BusinessApproval}
 
@@ -48,11 +48,6 @@ class EisEtdsController @Inject() (
           ,
           req => processRequest(req.vdsApprovalId)
         )
-    }
-
-  def getApprovalStatus(vdsApprovalId: String): Action[AnyContent] =
-    Action { implicit request =>
-      processRequest(vdsApprovalId)
     }
 
   private def processRequest(vdsApprovalId: String) =
