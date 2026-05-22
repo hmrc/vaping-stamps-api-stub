@@ -44,7 +44,7 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
 
       "Invalid stampsReferenceNumber is supplied" in {
         val invalidBody = Json.obj(
-          "vdsEmail"  -> "email@example.com",
+          "vdsEmail"              -> "email@example.com",
           "stampsReferenceNumber" -> "approvalId"
         )
         val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(invalidBody)
@@ -66,7 +66,7 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
     ) foreach { case (statusCode, approvalId, json) =>
       s"return $statusCode when request made for id $approvalId" in {
         val requestBody = Json.obj(
-          "vdsEmail"  -> "email@example.com",
+          "vdsEmail"              -> "email@example.com",
           "stampsReferenceNumber" -> approvalId
         )
         val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
