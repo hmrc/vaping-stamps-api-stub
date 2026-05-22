@@ -46,14 +46,14 @@ class EisEtdsController @Inject() (
               )
             )
           ,
-          req => processRequest(req.vdsApprovalId)
+          req => processRequest(req.stampsReferenceNumber)
         )
     }
 
-  private def processRequest(vdsApprovalId: String) =
-    logger.info(s"Checking approval status for vdsApprovalId=$vdsApprovalId")
-    if !approvalIdRegex.matches(vdsApprovalId) then
-      logger.error(s"The request payload is invalid or malformed: $vdsApprovalId.")
+  private def processRequest(stampsReferenceNumber: String) =
+    logger.info(s"Checking approval status for stampsReferenceNumber=$stampsReferenceNumber")
+    if !approvalIdRegex.matches(stampsReferenceNumber) then
+      logger.error(s"The request payload is invalid or malformed: $stampsReferenceNumber.")
       BadRequest(
         Json.obj(
           "datetime"     -> "2021-12-17T09:30:47Z",
@@ -62,7 +62,7 @@ class EisEtdsController @Inject() (
         )
       )
     else
-      vdsApprovalId match
+      stampsReferenceNumber match
 
         case "GBVA0000200DS" =>
           Ok(
