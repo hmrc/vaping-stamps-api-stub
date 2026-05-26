@@ -24,7 +24,7 @@ POST
 curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
 -H "Content-Type: application/json" \
 -H "Accept: application/vnd.hmrc.1.0+json" \
--d '{ "contactEmail": "test@test.com", "vdsApprovalId": "GBVA0000200DS" }'
+-d '{ "vdsEmail": "test@test.com", "stampsReferenceNumber": "GBVA0000200DS" }'
 
 ### Example stub data
 | Approval Id   | Status code |

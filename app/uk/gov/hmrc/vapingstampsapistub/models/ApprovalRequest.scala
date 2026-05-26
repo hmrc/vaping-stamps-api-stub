@@ -19,8 +19,8 @@ package uk.gov.hmrc.vapingstampsapistub.models
 import play.api.libs.json._
 
 case class ApprovalRequest(
-  contactEmail: String,
-  vdsApprovalId: String
+  vdsEmail: String,
+  stampsReferenceNumber: String
 )
 
 object ApprovalRequest {
