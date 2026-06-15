@@ -79,6 +79,21 @@ class EisEtdsController @Inject() (
               )
             )
           )
+        case "GBVA0000266DS" =>
+          Ok(
+            Json.toJson(
+              BusinessApproval(
+                approvalStatus = "NOT_APPROVED",
+                businessName = "Example Trading Ltd",
+                addressLine1 = "10 Example Street",
+                addressLine2 = Some("London"),
+                postCode = "SW1A 1AA",
+                contactName = Some("Jane Smith"),
+                telephoneNumber = Some("+44 20 7946 0123"),
+                stampsThreshold = 500000
+              )
+            )
+          )
         case "GBVA0000401DS" =>
           Unauthorized(
             Json.obj(
