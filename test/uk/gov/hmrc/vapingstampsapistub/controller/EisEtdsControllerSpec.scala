@@ -58,6 +58,8 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
 
     Seq(
       (OK, "GBVA0000200DS", successJson),
+      (OK, "GBVA0000266DS", partialSuccessJson),
+      (OK, "XIVA0000200DS", successJson),
       (UNAUTHORIZED, "GBVA0000401DS", unauthorizedJson),
       (FORBIDDEN, "GBVA0000403DS", forbiddenJson),
       (NOT_FOUND, "GBVA0000404DS", notFoundJson),

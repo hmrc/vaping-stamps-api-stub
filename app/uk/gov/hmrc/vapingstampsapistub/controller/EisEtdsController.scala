@@ -20,7 +20,7 @@ import play.api.Logging
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
-import uk.gov.hmrc.vapingstampsapistub.models.{ApprovalRequest, BusinessApproval}
+import uk.gov.hmrc.vapingstampsapistub.models.{ApprovalRequest, BusinessApproval, BusinessNotApproved}
 
 import javax.inject.{Inject, Singleton}
 
@@ -29,7 +29,7 @@ class EisEtdsController @Inject() (
   cc: ControllerComponents
 ) extends BackendController(cc) with Logging:
 
-  private val approvalIdRegex = "^GBVA[0-9]{7}DS$".r
+  private val approvalIdRegex = "^(GB|XI)VA[0-9]{7}DS$".r
 
   def checkApprovalStatus(): Action[JsValue] =
     Action(parse.json) { implicit request =>
@@ -79,11 +79,11 @@ class EisEtdsController @Inject() (
               )
             )
           )
-        case "GBVA0000266DS" =>
+        case "XIVA0000200DS" =>
           Ok(
             Json.toJson(
               BusinessApproval(
-                approvalStatus = "NOT_APPROVED",
+                approvalStatus = "APPROVED",
                 businessName = "Example Trading Ltd",
                 addressLine1 = "10 Example Street",
                 addressLine2 = Some("London"),
@@ -91,6 +91,14 @@ class EisEtdsController @Inject() (
                 contactName = Some("Jane Smith"),
                 telephoneNumber = Some("+44 20 7946 0123"),
                 stampsThreshold = 500000
+              )
+            )
+          )
+        case "GBVA0000266DS" =>
+          Ok(
+            Json.toJson(
+              BusinessNotApproved(
+                approvalStatus = "NOT_APPROVED"
               )
             )
           )
