@@ -86,8 +86,8 @@ class EisEtdsController @Inject() (
                 approvalStatus = "APPROVED",
                 businessName = "Example Trading Ltd",
                 addressLine1 = "10 Example Street",
-                addressLine2 = Some("London"),
-                postCode = "SW1A 1AA",
+                addressLine2 = Some("Belfast"),
+                postCode = "BT1 1AA",
                 contactName = Some("Jane Smith"),
                 telephoneNumber = Some("+44 20 7946 0123"),
                 stampsThreshold = 500000
@@ -95,6 +95,14 @@ class EisEtdsController @Inject() (
             )
           )
         case "GBVA0000266DS" =>
+          Ok(
+            Json.toJson(
+              BusinessNotApproved(
+                approvalStatus = "NOT_APPROVED"
+              )
+            )
+          )
+        case "XIVA0000266DS" =>
           Ok(
             Json.toJson(
               BusinessNotApproved(
@@ -110,7 +118,23 @@ class EisEtdsController @Inject() (
               "errorMessage" -> "Authentication credentials are missing or invalid."
             )
           )
+        case "XIVA0000401DS" =>
+          Unauthorized(
+            Json.obj(
+              "datetime"     -> "2021-12-17T09:30:47Z",
+              "errorCode"    -> Seq("001"),
+              "errorMessage" -> "Authentication credentials are missing or invalid."
+            )
+          )
         case "GBVA0000403DS" =>
+          Forbidden(
+            Json.obj(
+              "datetime"     -> "2021-12-17T09:30:47Z",
+              "errorCode"    -> Seq("001"),
+              "errorMessage" -> "You are not authorised to access this resource."
+            )
+          )
+        case "XIVA0000403DS" =>
           Forbidden(
             Json.obj(
               "datetime"     -> "2021-12-17T09:30:47Z",
@@ -126,7 +150,22 @@ class EisEtdsController @Inject() (
               "errorMessage" -> "Business validation failure"
             )
           )
+        case "XIVA0000422DS" =>
+          UnprocessableEntity(
+            Json.obj(
+              "datetime"     -> "2021-12-17T09:30:47Z",
+              "errorCode"    -> Seq("001"),
+              "errorMessage" -> "Business validation failure"
+            )
+          )
         case "GBVA0000500DS" =>
+          InternalServerError(
+            Json.obj(
+              "datetime" -> "2021-12-17T09:30:47Z",
+              "message"  -> "An unexpected error occurred while processing the request."
+            )
+          )
+        case "XIVA0000500DS" =>
           InternalServerError(
             Json.obj(
               "datetime" -> "2021-12-17T09:30:47Z",

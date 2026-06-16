@@ -30,19 +30,24 @@ curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
 | Approval Id   | Status code |
 |---------------|-------------|
 | GBVA0000200DS | 200         |
-| GBVA0000266DS | 200         |
 | XIVA0000200DS | 200         |
+| GBVA0000266DS | 200         |
 | XIVA0000266DS | 200         |
 | GBVA0000400DS | 400         |
 | XIVA0000400DS | 400         |
 | GBVA0000401DS | 401         |
+| XIVA0000401DS | 401         |
 | GBVA0000403DS | 403         |
+| XIVA0000403DS | 403         |
 | GBVA0000404DS | 404         |
+| XIVA0000404DS | 404         |
 | GBVA0000422DS | 422         |
+| XIVA0000422DS | 422         |
 | GBVA0000500DS | 500         |
+| XIVA0000500DS | 500         |
 
 GBVA0000266DS is a Not Approved example response
-XIVA0000266DS is a Northern Island Not Approved example response
+*XI* VA0000200DS is a Northern Island example response
 
 ### License
 
