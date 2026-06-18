@@ -17,7 +17,7 @@
 package uk.gov.hmrc.vapingstampsapistub.utils
 
 import play.api.libs.json.{JsObject, JsValue, Json}
-import uk.gov.hmrc.vapingstampsapistub.models.BusinessApproval
+import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved}
 
 object ExpectedResponses {
 
@@ -31,6 +31,25 @@ object ExpectedResponses {
       contactName = Some("Jane Smith"),
       telephoneNumber = Some("+44 20 7946 0123"),
       stampsThreshold = 500000
+    )
+  )
+
+  val successNIJson: JsValue = Json.toJson(
+    BusinessApproval(
+      approvalStatus = "APPROVED",
+      businessName = "Example Trading Ltd",
+      addressLine1 = "10 Example Street",
+      addressLine2 = Some("Belfast"),
+      postCode = "BT1 1AA",
+      contactName = Some("Jane Smith"),
+      telephoneNumber = Some("+44 20 7946 0123"),
+      stampsThreshold = 500000
+    )
+  )
+
+  val partialSuccessJson: JsValue = Json.toJson(
+    BusinessNotApproved(
+      approvalStatus = "NOT_APPROVED"
     )
   )
 
