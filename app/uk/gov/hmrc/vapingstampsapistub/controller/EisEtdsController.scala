@@ -22,6 +22,8 @@ import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import uk.gov.hmrc.vapingstampsapistub.models.{ApprovalRequest, BusinessApproval, BusinessNotApproved}
 
+import java.time.LocalDateTime
+import java.util.UUID
 import javax.inject.{Inject, Singleton}
 
 @Singleton
@@ -40,9 +42,16 @@ class EisEtdsController @Inject() (
             logger.error(s"The request payload is invalid or malformed.")
             BadRequest(
               Json.obj(
-                "datetime"     -> "2021-12-17T09:30:47Z",
-                "errorCode"    -> Seq("001", "002", "010"),
-                "errorMessage" -> "The request payload is invalid or malformed."
+                "errorDetail" -> Json.obj(
+                  "correlationId" -> UUID.randomUUID(),
+                  "errorCode" -> "400",
+                  "errorMessage" -> "Invalid JSON document",
+                  "source" -> "journey-vds03-service-camel",
+                  "sourceDefaultDetail" -> Json.obj(
+                    "detail" -> Seq("Invalid JSON payload")
+                  ),
+                  "timestamp" -> LocalDateTime.now()
+                )
               )
             )
           ,
@@ -52,131 +61,131 @@ class EisEtdsController @Inject() (
 
   private def processRequest(stampsReferenceNumber: String) =
     logger.info(s"Checking approval status for stampsReferenceNumber=$stampsReferenceNumber")
-    if !approvalIdRegex.matches(stampsReferenceNumber) then
-      logger.error(s"The request payload is invalid or malformed: $stampsReferenceNumber.")
-      BadRequest(
-        Json.obj(
-          "datetime"     -> "2021-12-17T09:30:47Z",
-          "errorCode"    -> Seq("001", "002", "010"),
-          "errorMessage" -> "The request payload is invalid or malformed."
-        )
-      )
-    else
-      stampsReferenceNumber match
+    stampsReferenceNumber match
 
-        case "GBVA0000200DS" =>
-          Ok(
-            Json.toJson(
-              BusinessApproval(
-                approvalStatus = "APPROVED",
-                businessName = "Example Trading Ltd",
-                addressLine1 = "10 Example Street",
-                addressLine2 = Some("London"),
-                postCode = "SW1A 1AA",
-                contactName = Some("Jane Smith"),
-                telephoneNumber = Some("+44 20 7946 0123"),
-                stampsThreshold = 500000
-              )
+      case "GBVA0000200DS" =>
+        Ok(
+          Json.toJson(
+            BusinessApproval(
+              approvalStatus = "APPROVED",
+              businessName = "Example Trading Ltd",
+              addressLine1 = "10 Example Street",
+              addressLine2 = Some("London"),
+              postCode = "SW1A 1AA",
+              contactName = Some("Jane Smith"),
+              telephoneNumber = Some("+44 20 7946 0123"),
+              stampsThreshold = 500000
             )
           )
-        case "XIVA0000200DS" =>
-          Ok(
-            Json.toJson(
-              BusinessApproval(
-                approvalStatus = "APPROVED",
-                businessName = "Example Trading Ltd",
-                addressLine1 = "10 Example Street",
-                addressLine2 = Some("Belfast"),
-                postCode = "BT1 1AA",
-                contactName = Some("Jane Smith"),
-                telephoneNumber = Some("+44 20 7946 0123"),
-                stampsThreshold = 500000
-              )
+        )
+      case "XIVA0000200DS" =>
+        Ok(
+          Json.toJson(
+            BusinessApproval(
+              approvalStatus = "APPROVED",
+              businessName = "Example Trading Ltd",
+              addressLine1 = "10 Example Street",
+              addressLine2 = Some("Belfast"),
+              postCode = "BT1 1AA",
+              contactName = Some("Jane Smith"),
+              telephoneNumber = Some("+44 20 7946 0123"),
+              stampsThreshold = 500000
             )
           )
-        case "GBVA0000266DS" =>
-          Ok(
-            Json.toJson(
-              BusinessNotApproved(
-                approvalStatus = "NOT_APPROVED"
-              )
+        )
+      case "GBVA0000266DS" | "XIVA0000266DS" =>
+        Ok(
+          Json.toJson(
+            BusinessNotApproved(
+              approvalStatus = "NOT_APPROVED"
             )
           )
-        case "XIVA0000266DS" =>
-          Ok(
-            Json.toJson(
-              BusinessNotApproved(
-                approvalStatus = "NOT_APPROVED"
-              )
+        )
+      case "GBVA0000401DS" | "XIVA0000401DS" =>
+        Unauthorized
+      case "GBVA0000403DS" | "XIVA0000403DS" =>
+        Forbidden
+      case "GBVA0000422DS" | "XIVA0000422DS" =>
+        UnprocessableEntity(
+          Json.obj(
+            "errorDetail" -> Json.obj(
+              "errorCode" -> "422",
+              "errorMessage" -> "Unprocessable Entity",
+              "source" -> "backend",
+              "sourceDefaultDetail" -> Json.obj(
+                "detail" -> Seq("001")
+              ),
+              "timestamp" -> LocalDateTime.now(),
+              "correlationId" -> UUID.randomUUID()
             )
           )
-        case "GBVA0000401DS" =>
-          Unauthorized(
-            Json.obj(
-              "datetime"     -> "2021-12-17T09:30:47Z",
-              "errorCode"    -> Seq("001"),
-              "errorMessage" -> "Authentication credentials are missing or invalid."
+        )
+      case "GBVA1000422DS" | "XIVA1000422DS" =>
+        UnprocessableEntity(
+          Json.obj(
+            "errorDetail" -> Json.obj(
+              "errorCode" -> "422",
+              "errorMessage" -> "Unprocessable Entity",
+              "source" -> "backend",
+              "sourceDefaultDetail" -> Json.obj(
+                "detail" -> Seq("002")
+              ),
+              "timestamp" -> LocalDateTime.now(),
+              "correlationId" -> UUID.randomUUID()
             )
           )
-        case "XIVA0000401DS" =>
-          Unauthorized(
-            Json.obj(
-              "datetime"     -> "2021-12-17T09:30:47Z",
-              "errorCode"    -> Seq("001"),
-              "errorMessage" -> "Authentication credentials are missing or invalid."
+        )
+      case "GBVA0000500DS" | "XIVA0000500DS" =>
+        Ok(
+          Json.toJson(
+            BusinessApproval(
+              approvalStatus = "REVOKED",
+              businessName = "Example Trading Ltd",
+              addressLine1 = "10 Example Street",
+              addressLine2 = Some("London"),
+              postCode = "SW1A 1AA",
+              contactName = Some("Jane Smith"),
+              telephoneNumber = Some("+44 20 7946 0123"),
+              stampsThreshold = 500000
             )
           )
-        case "GBVA0000403DS" =>
-          Forbidden(
-            Json.obj(
-              "datetime"     -> "2021-12-17T09:30:47Z",
-              "errorCode"    -> Seq("001"),
-              "errorMessage" -> "You are not authorised to access this resource."
+        )
+      case "GBVA1000502DS" | "XIVA1000502DS" =>
+        InternalServerError(
+          Json.obj(
+            "errorDetail" -> Json.obj(
+              "correlationId" -> UUID.randomUUID(),
+              "errorCode" -> "500",
+              "errorMessage" -> "Internal Server Error",
+              "source" -> "backend",
+              "sourceDefaultDetail" -> Json.obj(
+                "detail" -> Seq("Error occurred in request to ETDS")
+              ),
+              "timestamp" -> LocalDateTime.now()
             )
           )
-        case "XIVA0000403DS" =>
-          Forbidden(
-            Json.obj(
-              "datetime"     -> "2021-12-17T09:30:47Z",
-              "errorCode"    -> Seq("001"),
-              "errorMessage" -> "You are not authorised to access this resource."
+        )
+      case "GBVA0000502DS" | "XIVA0000502DS" => BadGateway
+      case "GBVA2000502DS" | "XIVA2000502DS" =>
+        ServiceUnavailable(
+          Json.obj(
+            "errorDetail" -> Json.obj(
+              "correlationId" -> UUID.randomUUID(),
+              "errorCode" -> "503",
+              "errorMessage" -> "503 error",
+              "source" -> "backend",
+              "sourceDefaultDetail" -> Json.obj(
+                "detail" -> Seq("")
+              ),
+              "timestamp" -> LocalDateTime.now()
             )
           )
-        case "GBVA0000422DS" =>
-          UnprocessableEntity(
-            Json.obj(
-              "datetime"     -> "2021-12-17T09:30:47Z",
-              "errorCode"    -> Seq("001"),
-              "errorMessage" -> "Business validation failure"
-            )
+        )
+      case _ =>
+        NotFound(
+          Json.obj(
+            "datetime"     -> "2021-12-17T09:30:47Z",
+            "errorCode"    -> Seq("001"),
+            "errorMessage" -> "The requested approval could not be found."
           )
-        case "XIVA0000422DS" =>
-          UnprocessableEntity(
-            Json.obj(
-              "datetime"     -> "2021-12-17T09:30:47Z",
-              "errorCode"    -> Seq("001"),
-              "errorMessage" -> "Business validation failure"
-            )
-          )
-        case "GBVA0000500DS" =>
-          InternalServerError(
-            Json.obj(
-              "datetime" -> "2021-12-17T09:30:47Z",
-              "message"  -> "An unexpected error occurred while processing the request."
-            )
-          )
-        case "XIVA0000500DS" =>
-          InternalServerError(
-            Json.obj(
-              "datetime" -> "2021-12-17T09:30:47Z",
-              "message"  -> "An unexpected error occurred while processing the request."
-            )
-          )
-        case _ =>
-          NotFound(
-            Json.obj(
-              "datetime"     -> "2021-12-17T09:30:47Z",
-              "errorCode"    -> Seq("001"),
-              "errorMessage" -> "The requested approval could not be found."
-            )
-          )
+        )
