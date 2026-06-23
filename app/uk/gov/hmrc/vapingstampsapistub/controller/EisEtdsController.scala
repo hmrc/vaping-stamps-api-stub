@@ -112,7 +112,7 @@ class EisEtdsController @Inject() (
               "errorCode" -> "422",
               "errorMessage" -> "Unprocessable Entity",
               "source" -> "backend",
-              "sourceDefaultDetail" -> Json.obj(
+              "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("001")
               ),
               "timestamp" -> LocalDateTime.now(),
@@ -127,7 +127,7 @@ class EisEtdsController @Inject() (
               "errorCode" -> "422",
               "errorMessage" -> "Unprocessable Entity",
               "source" -> "backend",
-              "sourceDefaultDetail" -> Json.obj(
+              "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("002")
               ),
               "timestamp" -> LocalDateTime.now(),
@@ -158,7 +158,7 @@ class EisEtdsController @Inject() (
               "errorCode" -> "500",
               "errorMessage" -> "Internal Server Error",
               "source" -> "backend",
-              "sourceDefaultDetail" -> Json.obj(
+              "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("Error occurred in request to ETDS")
               ),
               "timestamp" -> LocalDateTime.now()
@@ -174,7 +174,7 @@ class EisEtdsController @Inject() (
               "errorCode" -> "503",
               "errorMessage" -> "503 error",
               "source" -> "backend",
-              "sourceDefaultDetail" -> Json.obj(
+              "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("")
               ),
               "timestamp" -> LocalDateTime.now()
