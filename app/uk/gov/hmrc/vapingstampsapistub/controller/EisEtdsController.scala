@@ -22,16 +22,12 @@ import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import uk.gov.hmrc.vapingstampsapistub.models.{ApprovalRequest, BusinessApproval, BusinessNotApproved}
 
-import java.time.LocalDateTime
-import java.util.UUID
 import javax.inject.{Inject, Singleton}
 
 @Singleton
 class EisEtdsController @Inject() (
   cc: ControllerComponents
 ) extends BackendController(cc) with Logging:
-
-  private val approvalIdRegex = "^(GB|XI)VA[0-9]{7}DS$".r
 
   def checkApprovalStatus(): Action[JsValue] =
     Action(parse.json) { implicit request =>
@@ -43,14 +39,14 @@ class EisEtdsController @Inject() (
             BadRequest(
               Json.obj(
                 "errorDetail" -> Json.obj(
-                  "correlationId" -> UUID.randomUUID(),
-                  "errorCode" -> "400",
-                  "errorMessage" -> "Invalid JSON document",
-                  "source" -> "journey-vds03-service-camel",
-                  "sourceDefaultDetail" -> Json.obj(
+                  "correlationId"     -> "2f6bb2ff-4279-4d84-931c-60da02f5026d",
+                  "errorCode"         -> "400",
+                  "errorMessage"      -> "Invalid JSON document",
+                  "source"            -> "journey-vds03-service-camel",
+                  "sourceFaultDetail" -> Json.obj(
                     "detail" -> Seq("Invalid JSON payload")
                   ),
-                  "timestamp" -> LocalDateTime.now()
+                  "timestamp" -> "2026-06-23T15:05:07.236916"
                 )
               )
             )
@@ -109,14 +105,14 @@ class EisEtdsController @Inject() (
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
-              "errorCode" -> "422",
-              "errorMessage" -> "Unprocessable Entity",
-              "source" -> "backend",
+              "errorCode"         -> "422",
+              "errorMessage"      -> "Unprocessable Entity",
+              "source"            -> "backend",
               "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("001")
               ),
-              "timestamp" -> LocalDateTime.now(),
-              "correlationId" -> UUID.randomUUID()
+              "timestamp"     -> "2026-06-23T15:05:07.236916",
+              "correlationId" -> "2f6bb2ff-4279-4d84-931c-60da02f5026d"
             )
           )
         )
@@ -124,14 +120,14 @@ class EisEtdsController @Inject() (
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
-              "errorCode" -> "422",
-              "errorMessage" -> "Unprocessable Entity",
-              "source" -> "backend",
+              "errorCode"         -> "422",
+              "errorMessage"      -> "Unprocessable Entity",
+              "source"            -> "backend",
               "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("002")
               ),
-              "timestamp" -> LocalDateTime.now(),
-              "correlationId" -> UUID.randomUUID()
+              "timestamp"     -> "2026-06-23T15:05:07.236916",
+              "correlationId" -> "2f6bb2ff-4279-4d84-931c-60da02f5026d"
             )
           )
         )
@@ -154,14 +150,14 @@ class EisEtdsController @Inject() (
         InternalServerError(
           Json.obj(
             "errorDetail" -> Json.obj(
-              "correlationId" -> UUID.randomUUID(),
-              "errorCode" -> "500",
-              "errorMessage" -> "Internal Server Error",
-              "source" -> "backend",
+              "correlationId"     -> "2f6bb2ff-4279-4d84-931c-60da02f5026d",
+              "errorCode"         -> "500",
+              "errorMessage"      -> "Internal Server Error",
+              "source"            -> "backend",
               "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("Error occurred in request to ETDS")
               ),
-              "timestamp" -> LocalDateTime.now()
+              "timestamp" -> "2026-06-23T15:05:07.236916"
             )
           )
         )
@@ -170,22 +166,29 @@ class EisEtdsController @Inject() (
         ServiceUnavailable(
           Json.obj(
             "errorDetail" -> Json.obj(
-              "correlationId" -> UUID.randomUUID(),
-              "errorCode" -> "503",
-              "errorMessage" -> "503 error",
-              "source" -> "backend",
+              "correlationId"     -> "2f6bb2ff-4279-4d84-931c-60da02f5026d",
+              "errorCode"         -> "503",
+              "errorMessage"      -> "503 error",
+              "source"            -> "backend",
               "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("")
               ),
-              "timestamp" -> LocalDateTime.now()
+              "timestamp" -> "2026-06-23T15:05:07.236916"
             )
           )
         )
       case _ =>
-        NotFound(
+        UnprocessableEntity(
           Json.obj(
-            "datetime"     -> "2021-12-17T09:30:47Z",
-            "errorCode"    -> Seq("001"),
-            "errorMessage" -> "The requested approval could not be found."
+            "errorDetail" -> Json.obj(
+              "errorCode"         -> "422",
+              "errorMessage"      -> "Unprocessable Entity",
+              "source"            -> "backend",
+              "sourceFaultDetail" -> Json.obj(
+                "detail" -> Seq("001")
+              ),
+              "timestamp"     -> "2026-06-23T15:05:07.236916",
+              "correlationId" -> "2f6bb2ff-4279-4d84-931c-60da02f5026d"
+            )
           )
         )

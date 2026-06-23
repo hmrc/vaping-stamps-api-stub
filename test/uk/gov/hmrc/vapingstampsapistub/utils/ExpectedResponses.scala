@@ -19,11 +19,26 @@ package uk.gov.hmrc.vapingstampsapistub.utils
 import play.api.libs.json.{JsObject, JsValue, Json}
 import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved}
 
+import java.util.UUID
+
 object ExpectedResponses {
 
   val successJson: JsValue = Json.toJson(
     BusinessApproval(
       approvalStatus = "APPROVED",
+      businessName = "Example Trading Ltd",
+      addressLine1 = "10 Example Street",
+      addressLine2 = Some("London"),
+      postCode = "SW1A 1AA",
+      contactName = Some("Jane Smith"),
+      telephoneNumber = Some("+44 20 7946 0123"),
+      stampsThreshold = 500000
+    )
+  )
+
+  val businessApprovalFormatErrorJson: JsValue = Json.toJson(
+    BusinessApproval(
+      approvalStatus = "REVOKED",
       businessName = "Example Trading Ltd",
       addressLine1 = "10 Example Street",
       addressLine2 = Some("London"),
@@ -53,23 +68,45 @@ object ExpectedResponses {
     )
   )
 
-  val badRequestJson: JsObject =
-    errorJsonBuilder(Seq("001", "002", "010"), "The request payload is invalid or malformed.")
-  val unauthorizedJson: JsObject =
-    errorJsonBuilder(Seq("001"), "Authentication credentials are missing or invalid.")
-  val forbiddenJson: JsObject = errorJsonBuilder(Seq("001"), "You are not authorised to access this resource.")
-  val notFoundJson: JsObject = errorJsonBuilder(Seq("001"), "The requested approval could not be found.")
-  val unprocessableEntityJson: JsObject = errorJsonBuilder(Seq("001"), "Business validation failure")
-  val internalServerErrorJson: JsObject =
-    Json.obj(
-      "datetime" -> "2021-12-17T09:30:47Z",
-      "message"  -> "An unexpected error occurred while processing the request."
+  val badRequestJson: JsObject = Json.obj(
+    "errorDetail" -> Json.obj(
+      "correlationId"     -> "2f6bb2ff-4279-4d84-931c-60da02f5026d",
+      "errorCode"         -> "400",
+      "errorMessage"      -> "Invalid JSON document",
+      "source"            -> "journey-vds03-service-camel",
+      "sourceFaultDetail" -> Json.obj(
+        "detail" -> Seq("Invalid JSON payload")
+      ),
+      "timestamp" -> "2026-06-23T15:05:07.236916"
     )
+  )
 
-  private def errorJsonBuilder(code: Seq[String], message: String): JsObject =
+  def unprocessableEntityJson(errorCode: String): JsObject =
     Json.obj(
-      "datetime"     -> "2021-12-17T09:30:47Z",
-      "errorCode"    -> code,
-      "errorMessage" -> message
+      "errorDetail" -> Json.obj(
+        "errorCode"         -> "422",
+        "errorMessage"      -> "Unprocessable Entity",
+        "source"            -> "backend",
+        "sourceFaultDetail" -> Json.obj(
+          "detail" -> Seq(errorCode)
+        ),
+        "timestamp"     -> "2026-06-23T15:05:07.236916",
+        "correlationId" -> "2f6bb2ff-4279-4d84-931c-60da02f5026d"
+      )
+    )
+  def errorJson(code: Seq[String] = Seq(""), message: String, statusCode: String): JsObject = errorJsonBuilder(code, message, statusCode)
+
+  private def errorJsonBuilder(code: Seq[String], message: String, statusCode: String): JsObject =
+    Json.obj(
+      "errorDetail" -> Json.obj(
+        "correlationId"     -> "2f6bb2ff-4279-4d84-931c-60da02f5026d",
+        "errorCode"         -> statusCode,
+        "errorMessage"      -> message,
+        "source"            -> "backend",
+        "sourceFaultDetail" -> Json.obj(
+          "detail" -> code
+        ),
+        "timestamp" -> "2026-06-23T15:05:07.236916"
+      )
     )
 }
