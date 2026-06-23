@@ -19,8 +19,6 @@ package uk.gov.hmrc.vapingstampsapistub.utils
 import play.api.libs.json.{JsObject, JsValue, Json}
 import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved}
 
-import java.util.UUID
-
 object ExpectedResponses {
 
   val successJson: JsValue = Json.toJson(
@@ -94,7 +92,8 @@ object ExpectedResponses {
         "correlationId" -> "2f6bb2ff-4279-4d84-931c-60da02f5026d"
       )
     )
-  def errorJson(code: Seq[String] = Seq(""), message: String, statusCode: String): JsObject = errorJsonBuilder(code, message, statusCode)
+  def errorJson(code: Seq[String] = Seq(""), message: String, statusCode: String): JsObject =
+    errorJsonBuilder(code, message, statusCode)
 
   private def errorJsonBuilder(code: Seq[String], message: String, statusCode: String): JsObject =
     Json.obj(
