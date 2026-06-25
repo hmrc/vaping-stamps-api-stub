@@ -51,7 +51,7 @@ curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
 | XIVA2000502DS | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
 
 GBVA0000266DS is a Not Approved example response
-*XI* VA0000200DS is a Northern Island example response
+*XI* VA0000200DS is a Northern Ireland example response
 
 ### License
 
