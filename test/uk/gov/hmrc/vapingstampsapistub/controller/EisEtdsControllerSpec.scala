@@ -42,42 +42,100 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
         contentAsJson(response) shouldBe badRequestJson
       }
 
-      "Invalid stampsReferenceNumber is supplied" in {
-        val invalidBody = Json.obj(
-          "vdsEmail"              -> "email@example.com",
-          "stampsReferenceNumber" -> "approvalId"
-        )
-        val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(invalidBody)
-        val response = controller.checkApprovalStatus().apply(request)
+      Seq(
+        (OK, "GBVA0000200DS", successJson),
+        (OK, "GBVA0000266DS", partialSuccessJson),
+        (OK, "XIVA0000200DS", successNIJson),
+        (OK, "XIVA0000266DS", partialSuccessJson),
+        (UNPROCESSABLE_ENTITY, "GBVA0000422DS", unprocessableEntityJson("001")),
+        (UNPROCESSABLE_ENTITY, "XIVA0000422DS", unprocessableEntityJson("001")),
+        (UNPROCESSABLE_ENTITY, "GBVA1000422DS", unprocessableEntityJson("002")),
+        (UNPROCESSABLE_ENTITY, "XIVA1000422DS", unprocessableEntityJson("002")),
+        (UNPROCESSABLE_ENTITY, "GBVA1111111DS", unprocessableEntityJson("001")),
+        (UNPROCESSABLE_ENTITY, "XIVA1111111DS", unprocessableEntityJson("001")),
+        (OK, "GBVA0000500DS", businessApprovalFormatErrorJson),
+        (OK, "XIVA0000500DS", businessApprovalFormatErrorJson),
+        (
+          INTERNAL_SERVER_ERROR,
+          "GBVA1000502DS",
+          errorJson(
+            code = Seq("Error occurred in request to ETDS"),
+            message = "Internal Server Error",
+            statusCode = "500"
+          )
+        ),
+        (
+          INTERNAL_SERVER_ERROR,
+          "XIVA1000502DS",
+          errorJson(
+            code = Seq("Error occurred in request to ETDS"),
+            message = "Internal Server Error",
+            statusCode = "500"
+          )
+        ),
+        (SERVICE_UNAVAILABLE, "GBVA2000502DS", errorJson(message = "503 error", statusCode = "503")),
+        (SERVICE_UNAVAILABLE, "XIVA2000502DS", errorJson(message = "503 error", statusCode = "503"))
+      ) foreach { case (statusCode, stampsReferenceNumber, json) =>
+        s"return $statusCode when request made for id $stampsReferenceNumber" in {
+          val requestBody = Json.obj(
+            "vdsEmail"              -> "email@example.com",
+            "stampsReferenceNumber" -> stampsReferenceNumber
+          )
+          val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
+          val response = controller.checkApprovalStatus().apply(request)
 
-        status(response) shouldBe BAD_REQUEST
-
-        contentAsJson(response) shouldBe badRequestJson
+          status(response) shouldBe statusCode
+          contentAsJson(response) shouldBe json
+        }
       }
     }
 
     Seq(
-      (OK, "GBVA0000200DS", successJson),
-      (OK, "GBVA0000266DS", partialSuccessJson),
-      (OK, "XIVA0000200DS", successNIJson),
-      (UNAUTHORIZED, "GBVA0000401DS", unauthorizedJson),
-      (FORBIDDEN, "GBVA0000403DS", forbiddenJson),
-      (NOT_FOUND, "GBVA0000404DS", notFoundJson),
-      (UNPROCESSABLE_ENTITY, "GBVA0000422DS", unprocessableEntityJson),
-      (INTERNAL_SERVER_ERROR, "GBVA0000500DS", internalServerErrorJson)
-    ) foreach { case (statusCode, approvalId, json) =>
-      s"return $statusCode when request made for id $approvalId" in {
+      "GBVA0000401DS",
+      "XIVA0000401DS"
+    ) foreach { stampsReferenceNumber =>
+      s"return 401 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
         val requestBody = Json.obj(
           "vdsEmail"              -> "email@example.com",
-          "stampsReferenceNumber" -> approvalId
+          "stampsReferenceNumber" -> stampsReferenceNumber
         )
         val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
         val response = controller.checkApprovalStatus().apply(request)
 
-        status(response) shouldBe statusCode
-        contentAsJson(response) shouldBe json
+        status(response) shouldBe 401
       }
     }
 
+    Seq(
+      "GBVA0000403DS",
+      "XIVA0000403DS"
+    ) foreach { stampsReferenceNumber =>
+      s"return 403 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
+        val requestBody = Json.obj(
+          "vdsEmail"              -> "email@example.com",
+          "stampsReferenceNumber" -> stampsReferenceNumber
+        )
+        val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
+        val response = controller.checkApprovalStatus().apply(request)
+
+        status(response) shouldBe 403
+      }
+    }
+
+    Seq(
+      "GBVA0000502DS",
+      "XIVA0000502DS"
+    ) foreach { stampsReferenceNumber =>
+      s"return 502 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
+        val requestBody = Json.obj(
+          "vdsEmail"              -> "email@example.com",
+          "stampsReferenceNumber" -> stampsReferenceNumber
+        )
+        val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
+        val response = controller.checkApprovalStatus().apply(request)
+
+        status(response) shouldBe 502
+      }
+    }
   }
 }
