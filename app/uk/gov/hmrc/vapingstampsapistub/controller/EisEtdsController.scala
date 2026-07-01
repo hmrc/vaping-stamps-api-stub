@@ -20,7 +20,7 @@ import play.api.Logging
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
-import uk.gov.hmrc.vapingstampsapistub.models.{ApprovalRequest, BusinessApproval, BusinessNotApproved}
+import uk.gov.hmrc.vapingstampsapistub.models.{VDSDetails, BusinessApproval, BusinessNotApproved}
 
 import javax.inject.{Inject, Singleton}
 
@@ -32,7 +32,7 @@ class EisEtdsController @Inject() (
   def checkApprovalStatus(): Action[JsValue] =
     Action(parse.json) { implicit request =>
       request.body
-        .validate[ApprovalRequest]
+        .validate[VDSDetails]
         .fold(
           _ =>
             logger.error(s"The request payload is invalid or malformed.")

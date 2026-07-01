@@ -18,11 +18,11 @@ package uk.gov.hmrc.vapingstampsapistub.models
 
 import play.api.libs.json._
 
-case class ApprovalRequest(
+case class VDSDetails(
   vdsEmail: String,
   stampsReferenceNumber: String
 )
 
-object ApprovalRequest {
-  implicit val reads: Reads[ApprovalRequest] = Json.reads[ApprovalRequest]
+object VDSDetails {
+  implicit val reads: Reads[VDSDetails] = Json.reads[VDSDetails]
 }
