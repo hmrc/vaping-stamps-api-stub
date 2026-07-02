@@ -23,7 +23,7 @@ object ExpectedResponses {
 
   val successJson: JsValue = Json.toJson(
     BusinessApproval(
-      approvalStatus = "APPROVED",
+      approvalStatus = "approved",
       businessName = "Example Trading Ltd",
       addressLine1 = "10 Example Street",
       addressLine2 = Some("London"),
@@ -49,7 +49,7 @@ object ExpectedResponses {
 
   val successNIJson: JsValue = Json.toJson(
     BusinessApproval(
-      approvalStatus = "APPROVED",
+      approvalStatus = "approved",
       businessName = "Example Trading Ltd",
       addressLine1 = "10 Example Street",
       addressLine2 = Some("Belfast"),
@@ -62,7 +62,7 @@ object ExpectedResponses {
 
   val partialSuccessJson: JsValue = Json.toJson(
     BusinessNotApproved(
-      approvalStatus = "NOT_APPROVED"
+      approvalStatus = "not approved"
     )
   )
 

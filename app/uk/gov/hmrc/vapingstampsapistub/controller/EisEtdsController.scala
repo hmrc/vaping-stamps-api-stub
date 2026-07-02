@@ -63,7 +63,7 @@ class EisEtdsController @Inject() (
         Ok(
           Json.toJson(
             BusinessApproval(
-              approvalStatus = "APPROVED",
+              approvalStatus = "approved",
               businessName = "Example Trading Ltd",
               addressLine1 = "10 Example Street",
               addressLine2 = Some("London"),
@@ -78,7 +78,7 @@ class EisEtdsController @Inject() (
         Ok(
           Json.toJson(
             BusinessApproval(
-              approvalStatus = "APPROVED",
+              approvalStatus = "approved",
               businessName = "Example Trading Ltd",
               addressLine1 = "10 Example Street",
               addressLine2 = Some("Belfast"),
@@ -93,7 +93,7 @@ class EisEtdsController @Inject() (
         Ok(
           Json.toJson(
             BusinessNotApproved(
-              approvalStatus = "NOT_APPROVED"
+              approvalStatus = "not approved"
             )
           )
         )
