@@ -23,6 +23,5 @@ case class VDSDetails(
   stampsReferenceNumber: String
 )
 
-object VDSDetails {
-  implicit val reads: Reads[VDSDetails] = Json.reads[VDSDetails]
-}
+object VDSDetails:
+  given reads: Reads[VDSDetails] = Json.reads[VDSDetails]

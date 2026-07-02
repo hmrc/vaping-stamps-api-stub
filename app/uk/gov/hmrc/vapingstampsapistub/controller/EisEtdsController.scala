@@ -20,7 +20,7 @@ import play.api.Logging
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
-import uk.gov.hmrc.vapingstampsapistub.models.{VDSDetails, BusinessApproval, BusinessNotApproved}
+import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved, VDSDetails}
 
 import javax.inject.{Inject, Singleton}
 
