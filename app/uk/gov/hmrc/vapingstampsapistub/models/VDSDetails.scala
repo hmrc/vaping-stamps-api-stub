@@ -16,7 +16,8 @@
 
 package uk.gov.hmrc.vapingstampsapistub.models
 
-import play.api.libs.json._
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.*
 
 case class VDSDetails(
   vdsEmail: String,
@@ -24,4 +25,7 @@ case class VDSDetails(
 )
 
 object VDSDetails:
-  given reads: Reads[VDSDetails] = Json.reads[VDSDetails]
+  given reads: Reads[VDSDetails] = (
+    (JsPath \ "vdsdetails" \ "vdsEmail").read[String] and
+      (JsPath \ "vdsdetails" \ "stampsReferenceNumber").read[String]
+  )(VDSDetails.apply _)
