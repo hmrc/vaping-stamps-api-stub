@@ -146,7 +146,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA1000502DS" | "XIVA1000502DS" =>
+      case "GBVA1000503DS" | "XIVA1000503DS" =>
         InternalServerError(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -161,8 +161,8 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000502DS" | "XIVA0000502DS" => BadGateway
-      case "GBVA2000502DS" | "XIVA2000502DS" =>
+      case "GBVA0000503DS" | "XIVA0000503DS" => BadGateway
+      case "GBVA2000503DS" | "XIVA2000503DS" =>
         ServiceUnavailable(
           Json.obj(
             "errorDetail" -> Json.obj(
