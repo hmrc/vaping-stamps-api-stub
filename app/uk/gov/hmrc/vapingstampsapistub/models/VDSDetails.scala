@@ -16,13 +16,16 @@
 
 package uk.gov.hmrc.vapingstampsapistub.models
 
-import play.api.libs.json._
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.*
 
-case class ApprovalRequest(
+case class VDSDetails(
   vdsEmail: String,
   stampsReferenceNumber: String
 )
 
-object ApprovalRequest {
-  implicit val reads: Reads[ApprovalRequest] = Json.reads[ApprovalRequest]
-}
+object VDSDetails:
+  given reads: Reads[VDSDetails] = (
+    (JsPath \ "vdsdetails" \ "vdsEmail").read[String] and
+      (JsPath \ "vdsdetails" \ "stampsReferenceNumber").read[String]
+  )(VDSDetails.apply _)

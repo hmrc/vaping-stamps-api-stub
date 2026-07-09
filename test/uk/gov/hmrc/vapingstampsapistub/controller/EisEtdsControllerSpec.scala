@@ -78,8 +78,10 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
       ) foreach { case (statusCode, stampsReferenceNumber, json) =>
         s"return $statusCode when request made for id $stampsReferenceNumber" in {
           val requestBody = Json.obj(
-            "vdsEmail"              -> "email@example.com",
-            "stampsReferenceNumber" -> stampsReferenceNumber
+            "vdsdetails" -> Json.obj(
+              "vdsEmail"              -> "email@example.com",
+              "stampsReferenceNumber" -> stampsReferenceNumber
+            )
           )
           val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
           val response = controller.checkApprovalStatus().apply(request)
@@ -96,8 +98,10 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
     ) foreach { stampsReferenceNumber =>
       s"return 401 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
         val requestBody = Json.obj(
-          "vdsEmail"              -> "email@example.com",
-          "stampsReferenceNumber" -> stampsReferenceNumber
+          "vdsdetails" -> Json.obj(
+            "vdsEmail"              -> "email@example.com",
+            "stampsReferenceNumber" -> stampsReferenceNumber
+          )
         )
         val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
         val response = controller.checkApprovalStatus().apply(request)
@@ -112,8 +116,10 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
     ) foreach { stampsReferenceNumber =>
       s"return 403 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
         val requestBody = Json.obj(
-          "vdsEmail"              -> "email@example.com",
-          "stampsReferenceNumber" -> stampsReferenceNumber
+          "vdsdetails" -> Json.obj(
+            "vdsEmail"              -> "email@example.com",
+            "stampsReferenceNumber" -> stampsReferenceNumber
+          )
         )
         val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
         val response = controller.checkApprovalStatus().apply(request)
@@ -128,8 +134,10 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
     ) foreach { stampsReferenceNumber =>
       s"return 502 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
         val requestBody = Json.obj(
-          "vdsEmail"              -> "email@example.com",
-          "stampsReferenceNumber" -> stampsReferenceNumber
+          "vdsdetails" -> Json.obj(
+            "vdsEmail"              -> "email@example.com",
+            "stampsReferenceNumber" -> stampsReferenceNumber
+          )
         )
         val request = FakeRequest(POST, "/etds/vaping/stamps/status").withBody(requestBody)
         val response = controller.checkApprovalStatus().apply(request)
