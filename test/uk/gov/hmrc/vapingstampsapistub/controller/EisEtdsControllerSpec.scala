@@ -57,7 +57,7 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
         (OK, "XIVA0000500DS", businessApprovalFormatErrorJson),
         (
           INTERNAL_SERVER_ERROR,
-          "GBVA1000502DS",
+          "GBVA1000503DS",
           errorJson(
             code = Seq("Error occurred in request to ETDS"),
             message = "Internal Server Error",
@@ -66,15 +66,15 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
         ),
         (
           INTERNAL_SERVER_ERROR,
-          "XIVA1000502DS",
+          "XIVA1000503DS",
           errorJson(
             code = Seq("Error occurred in request to ETDS"),
             message = "Internal Server Error",
             statusCode = "500"
           )
         ),
-        (SERVICE_UNAVAILABLE, "GBVA2000502DS", errorJson(message = "503 error", statusCode = "503")),
-        (SERVICE_UNAVAILABLE, "XIVA2000502DS", errorJson(message = "503 error", statusCode = "503"))
+        (SERVICE_UNAVAILABLE, "GBVA2000503DS", errorJson(message = "503 error", statusCode = "503")),
+        (SERVICE_UNAVAILABLE, "XIVA2000503DS", errorJson(message = "503 error", statusCode = "503"))
       ) foreach { case (statusCode, stampsReferenceNumber, json) =>
         s"return $statusCode when request made for id $stampsReferenceNumber" in {
           val requestBody = Json.obj(
@@ -129,8 +129,8 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
     }
 
     Seq(
-      "GBVA0000502DS",
-      "XIVA0000502DS"
+      "GBVA0000503DS",
+      "XIVA0000503DS"
     ) foreach { stampsReferenceNumber =>
       s"return 502 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
         val requestBody = Json.obj(

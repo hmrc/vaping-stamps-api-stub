@@ -7,7 +7,7 @@ It is a semi-stateful test service - in order to use it, you need to request it 
 
 
 ## Who/What uses this service?
-API microservices that make Vaping Stamps-related calls to IES/ETDS which are deployed to the External Test environment. The microservices should be configured to connect to this stub instead of a real EIS/ETDS.
+API microservices that makes Vaping Stamps-related calls to EIS/ETDS which are deployed to the External Test environment. The microservices should be configured to connect to this stub instead of a real EIS/ETDS.
 
 ## Running the service locally
 
@@ -43,12 +43,12 @@ curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
 | XIVA1000422DS | 422         | Scenario for missing vdsEmail in ETDS                                                |
 | GBVA0000500DS | 500         | Scenario that returns success response with JSON to trigger 500 in vaping-stamps-api |
 | XIVA0000500DS | 500         | Scenario that returns success response with JSON to trigger 500 in vaping-stamps-api |
-| GBVA0000502DS | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |
-| XIVA0000502DS | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |
-| GBVA1000502DS | 500         | Scenario that returns 500 from EIS and 502 in vaping-stamps-api                      |
-| XIVA1000502DS | 500         | Scenario that returns 500 from EIS and 502 in vaping-stamps-api                      |
-| GBVA2000502DS | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
-| XIVA2000502DS | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
+| GBVA0000503DS | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |
+| XIVA0000503DS | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |
+| GBVA1000503DS | 500         | Scenario that returns 500 from EIS and 502 in vaping-stamps-api                      |
+| XIVA1000503DS | 500         | Scenario that returns 500 from EIS and 502 in vaping-stamps-api                      |
+| GBVA2000503DS | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
+| XIVA2000503DS | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
 
 GBVA0000266DS is a Not Approved example response
 *XI* VA0000200DS is a Northern Ireland example response
