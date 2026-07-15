@@ -64,7 +64,6 @@ class EisEtdsController @Inject() (
             (""+c1 + c2, c3, c4, "" + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13)
           case _ => throw new IllegalArgumentException("Reference does not match expected character length")
         }
-        println("\n\n here" + splitRefTuple.toString)
         return splitRefTuple
       case _ => throw new IllegalArgumentException("Stamp Reference number validation failed")
     }
@@ -139,21 +138,6 @@ class EisEtdsController @Inject() (
               "source"            -> "backend",
               "sourceFaultDetail" -> Json.obj(
                 "detail" -> Seq("002")
-              ),
-              "timestamp"     -> "2026-06-23T15:05:07.236916",
-              "correlationId" -> "2f6bb2ff-4279-4d84-931c-60da02f5026d"
-            )
-          )
-        )
-      case "GBVA2000422DS" | "XIVA2000422DS" =>
-        UnprocessableEntity(
-          Json.obj(
-            "errorDetail" -> Json.obj(
-              "errorCode"         -> "422",
-              "errorMessage"      -> "Unprocessable Entity",
-              "source"            -> "backend",
-              "sourceFaultDetail" -> Json.obj(
-                "detail" -> Seq("003")
               ),
               "timestamp"     -> "2026-06-23T15:05:07.236916",
               "correlationId" -> "2f6bb2ff-4279-4d84-931c-60da02f5026d"
