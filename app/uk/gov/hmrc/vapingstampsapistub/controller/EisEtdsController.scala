@@ -55,11 +55,25 @@ class EisEtdsController @Inject() (
         )
     }
 
+  private def splitTheRef(stamp: String): (String, Char, Char, String) = {
+    val stampsReferenceNumberRegex: String = "^(GB|XI)V(A|C|E|F|M|R)[0-9]{7}DS$"
+    stamp match {
+      case stamp if stamp.matches(stampsReferenceNumberRegex) =>
+        val splitRefTuple = stamp.toSeq match {
+          case Seq(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13) =>
+            (""+c1 + c2, c3, c4, "" + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13)
+          case _ => throw new IllegalArgumentException("Reference does not match expected character length")
+        }
+        println("\n\n here" + splitRefTuple.toString)
+        return splitRefTuple
+      case _ => throw new IllegalArgumentException("Stamp Reference number validation failed")
+    }
+  }
+
   private def processRequest(stampsReferenceNumber: String) =
     logger.info(s"Checking approval status for stampsReferenceNumber=$stampsReferenceNumber")
-    stampsReferenceNumber match
-
-      case "GBVA0000200DS" =>
+    splitTheRef(stampsReferenceNumber) match
+      case ("GB", _, _, "0000200DS") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -74,7 +88,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "XIVA0000200DS" =>
+      case ("XI", _, _, "0000200DS") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -89,7 +103,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000266DS" | "XIVA0000266DS" =>
+      case (_, _, _, "0000266DS") =>
         Ok(
           Json.toJson(
             BusinessNotApproved(
@@ -97,11 +111,11 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000401DS" | "XIVA0000401DS" =>
+      case (_, _, _, "0000401DS") =>
         Unauthorized
-      case "GBVA0000403DS" | "XIVA0000403DS" =>
+      case (_, _, _, "0000403DS") =>
         Forbidden
-      case "GBVA0000422DS" | "XIVA0000422DS" =>
+      case (_, _, _, "0000422DS") =>
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -116,7 +130,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA1000422DS" | "XIVA1000422DS" =>
+      case (_, _, _, "1000422DS") =>
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -146,7 +160,22 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000500DS" | "XIVA0000500DS" =>
+      case (_, _, _, "2000422DS") =>
+        UnprocessableEntity(
+          Json.obj(
+            "errorDetail" -> Json.obj(
+              "errorCode"         -> "422",
+              "errorMessage"      -> "Unprocessable Entity",
+              "source"            -> "backend",
+              "sourceFaultDetail" -> Json.obj(
+                "detail" -> Seq("003")
+              ),
+              "timestamp"     -> "2026-06-23T15:05:07.236916",
+              "correlationId" -> "2f6bb2ff-4279-4d84-931c-60da02f5026d"
+            )
+          )
+        )
+      case (_, _, _, "0000500DS") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -161,7 +190,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA1000503DS" | "XIVA1000503DS" =>
+      case (_, _, _, "1000503DS") =>
         InternalServerError(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -176,8 +205,8 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000503DS" | "XIVA0000503DS" => BadGateway
-      case "GBVA2000503DS" | "XIVA2000503DS" =>
+      case (_, _, _, "0000503DS") => BadGateway
+      case (_, _, _, "2000503DS") =>
         ServiceUnavailable(
           Json.obj(
             "errorDetail" -> Json.obj(
