@@ -41,6 +41,8 @@ curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
 | XIVA0000422DS | 422         | Scenario for missing stampsReferenceNumber in ETDS                                   |
 | GBVA1000422DS | 422         | Scenario for missing vdsEmail in ETDS                                                |
 | XIVA1000422DS | 422         | Scenario for missing vdsEmail in ETDS                                                |
+| GBVA2000422DS | 422         | Scenario for repeated calls usingthe same stampsReferenceNumber                      |
+| XIVA2000422DS | 422         | Scenario for repeated calls using the same stampsReferenceNumber                     |
 | GBVA0000500DS | 500         | Scenario that returns success response with JSON to trigger 500 in vaping-stamps-api |
 | XIVA0000500DS | 500         | Scenario that returns success response with JSON to trigger 500 in vaping-stamps-api |
 | GBVA0000503DS | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |

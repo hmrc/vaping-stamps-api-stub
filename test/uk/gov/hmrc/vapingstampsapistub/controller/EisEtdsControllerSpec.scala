@@ -51,6 +51,8 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
         (UNPROCESSABLE_ENTITY, "XIVA0000422DS", unprocessableEntityJson("001")),
         (UNPROCESSABLE_ENTITY, "GBVA1000422DS", unprocessableEntityJson("002")),
         (UNPROCESSABLE_ENTITY, "XIVA1000422DS", unprocessableEntityJson("002")),
+        (UNPROCESSABLE_ENTITY, "GBVA2000422DS", unprocessableEntityJson("003")),
+        (UNPROCESSABLE_ENTITY, "XIVA2000422DS", unprocessableEntityJson("003")),
         (UNPROCESSABLE_ENTITY, "GBVA1111111DS", unprocessableEntityJson("001")),
         (UNPROCESSABLE_ENTITY, "XIVA1111111DS", unprocessableEntityJson("001")),
         (OK, "GBVA0000500DS", businessApprovalFormatErrorJson),
