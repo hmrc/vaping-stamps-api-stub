@@ -20,7 +20,7 @@ import play.api.Logging
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
-import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved, VDSDetails}
+import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved, StampsReferenceNumber, VDSDetails}
 
 import javax.inject.{Inject, Singleton}
 
@@ -69,10 +69,10 @@ class EisEtdsController @Inject() (
     }
   }
 
-  private def processRequest(stampsReferenceNumber: String) =
+  private def processRequest(stampsReferenceNumber: StampsReferenceNumber) =
     logger.info(s"Checking approval status for stampsReferenceNumber=$stampsReferenceNumber")
-    splitTheRef(stampsReferenceNumber) match
-      case ("GB", _, _, "0000200DS") =>
+    (stampsReferenceNumber.isNorthernIreland, stampsReferenceNumber.digits) match
+      case (true, "0000200") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -87,7 +87,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case ("XI", _, _, "0000200DS") =>
+      case (false, "0000200") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -102,7 +102,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case (_, _, _, "0000266DS") =>
+      case (_, "0000266") =>
         Ok(
           Json.toJson(
             BusinessNotApproved(

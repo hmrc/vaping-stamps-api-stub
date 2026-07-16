@@ -21,11 +21,11 @@ import play.api.libs.json.*
 
 case class VDSDetails(
   vdsEmail: String,
-  stampsReferenceNumber: String
+  stampsReferenceNumber: StampsReferenceNumber
 )
 
 object VDSDetails:
   given reads: Reads[VDSDetails] = (
     (JsPath \ "vdsdetails" \ "vdsEmail").read[String] and
-      (JsPath \ "vdsdetails" \ "stampsReferenceNumber").read[String]
+      (JsPath \ "vdsdetails" \ "stampsReferenceNumber").read[StampsReferenceNumber]
   )(VDSDetails.apply _)
