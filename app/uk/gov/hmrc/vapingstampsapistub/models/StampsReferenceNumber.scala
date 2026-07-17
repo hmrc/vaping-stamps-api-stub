@@ -20,7 +20,7 @@ import play.api.libs.json
 import play.api.libs.json.*
 
 case class StampsReferenceNumber(srn: String) {
-  given prefix: String = srn.take(2)
+  val prefix: String = srn.take(2)
 
   val isNorthernIsland: Boolean = prefix startsWith "XI"
 
@@ -30,13 +30,8 @@ case class StampsReferenceNumber(srn: String) {
 object StampsReferenceNumber:
   val regex = "^(GB|XI)V[ACEFMR][0-9]{7}DS$"
 
-  implicit val reads: Reads[StampsReferenceNumber] = __
-    .read[String]
-    .filter(json.JsonValidationError("Validation failed"))(_.matches(regex))
-    .map(StampsReferenceNumber(_))
 
-  given format: Format[StampsReferenceNumber] =
-    Format(
-      reads,
-      Json.writes[StampsReferenceNumber]
-    )
+  given reads: Reads[StampsReferenceNumber] = __
+      .read[String]
+      .filter(json.JsonValidationError("Validation failed"))(_.matches(regex))
+      .map(StampsReferenceNumber(_))
