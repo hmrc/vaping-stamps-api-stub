@@ -30,8 +30,7 @@ case class StampsReferenceNumber(srn: String) {
 object StampsReferenceNumber:
   val regex = "^(GB|XI)V[ACEFMR][0-9]{7}DS$"
 
-
   given reads: Reads[StampsReferenceNumber] = __
-      .read[String]
-      .filter(json.JsonValidationError("Validation failed"))(_.matches(regex))
-      .map(StampsReferenceNumber(_))
+    .read[String]
+    .filter(json.JsonValidationError("Validation failed"))(_.matches(regex))
+    .map(StampsReferenceNumber(_))
