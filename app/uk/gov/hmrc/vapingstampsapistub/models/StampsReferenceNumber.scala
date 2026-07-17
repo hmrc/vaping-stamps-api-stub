@@ -16,16 +16,21 @@
 
 package uk.gov.hmrc.vapingstampsapistub.models
 
-import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json
 import play.api.libs.json.*
 
-case class VDSDetails(
-  vdsEmail: String,
-  stampsReferenceNumber: StampsReferenceNumber
-)
+case class StampsReferenceNumber(srn: String) {
+  val prefix: String = srn.take(2)
 
-object VDSDetails:
-  given reads: Reads[VDSDetails] = (
-    (JsPath \ "vdsdetails" \ "vdsEmail").read[String] and
-      (JsPath \ "vdsdetails" \ "stampsReferenceNumber").read[StampsReferenceNumber]
-  )(VDSDetails.apply _)
+  val isNorthernIsland: Boolean = prefix startsWith "XI"
+
+  val numberString: String = srn.filter(_.isDigit)
+}
+
+object StampsReferenceNumber:
+  val regex = "^(GB|XI)V[ACEFMR][0-9]{7}DS$"
+
+  given reads: Reads[StampsReferenceNumber] = __
+    .read[String]
+    .filter(json.JsonValidationError("Validation failed"))(_.matches(regex))
+    .map(StampsReferenceNumber(_))

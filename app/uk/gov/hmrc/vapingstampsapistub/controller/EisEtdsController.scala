@@ -17,10 +17,10 @@
 package uk.gov.hmrc.vapingstampsapistub.controller
 
 import play.api.Logging
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
-import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved, VDSDetails}
+import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved, StampsReferenceNumber, VDSDetails}
 
 import javax.inject.{Inject, Singleton}
 
@@ -55,11 +55,11 @@ class EisEtdsController @Inject() (
         )
     }
 
-  private def processRequest(stampsReferenceNumber: String) =
+  private def processRequest(stampsReferenceNumber: StampsReferenceNumber) =
     logger.info(s"Checking approval status for stampsReferenceNumber=$stampsReferenceNumber")
-    stampsReferenceNumber match
+    (stampsReferenceNumber.isNorthernIsland, stampsReferenceNumber.numberString) match
 
-      case "GBVA0000200DS" =>
+      case (false, "0000200") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -74,7 +74,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "XIVA0000200DS" =>
+      case (true, "0000200") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -89,7 +89,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000266DS" | "XIVA0000266DS" =>
+      case (_, "0000266") =>
         Ok(
           Json.toJson(
             BusinessNotApproved(
@@ -97,11 +97,11 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000401DS" | "XIVA0000401DS" =>
+      case (_, "0000401") =>
         Unauthorized
-      case "GBVA0000403DS" | "XIVA0000403DS" =>
+      case (_, "0000403") =>
         Forbidden
-      case "GBVA0000422DS" | "XIVA0000422DS" =>
+      case (_, "0000422") =>
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -116,7 +116,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA1000422DS" | "XIVA1000422DS" =>
+      case (_, "1000422") =>
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -131,7 +131,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA2000422DS" | "XIVA2000422DS" =>
+      case (_, "2000422") =>
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -146,7 +146,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000500DS" | "XIVA0000500DS" =>
+      case (_, "0000500") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -161,7 +161,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA1000503DS" | "XIVA1000503DS" =>
+      case (_, "1000503") =>
         InternalServerError(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -176,8 +176,8 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case "GBVA0000503DS" | "XIVA0000503DS" => BadGateway
-      case "GBVA2000503DS" | "XIVA2000503DS" =>
+      case (_, "0000503") => BadGateway
+      case (_, "2000503") =>
         ServiceUnavailable(
           Json.obj(
             "errorDetail" -> Json.obj(
