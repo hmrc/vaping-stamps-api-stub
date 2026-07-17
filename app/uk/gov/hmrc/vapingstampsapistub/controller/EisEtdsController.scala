@@ -55,21 +55,6 @@ class EisEtdsController @Inject() (
         )
     }
 
-//  private def splitTheRef(stamp: String): (String, String, String, String) = {
-//    val stampsReferenceNumberRegex: String = "^(GB|XI)V[ACEFMR][0-9]{7}DS$"
-//
-//    val a = "(GB|XI)".r
-//    val b = "V".r
-//    val c = "[ACEFMR]".r
-//    val d = "[0-9]{7}DS".r
-//
-//    stamp match {
-//      case stamp if stamp.matches(stampsReferenceNumberRegex) =>
-//        (a.findFirstIn(stamp).get, b.findFirstIn(stamp).get, c.findFirstIn(stamp).get, d.findFirstIn(stamp).get)
-//      case _ => throw new IllegalArgumentException("Stamp Reference number validation failed")
-//    }
-//  }
-
   private def processRequest(stampsReferenceNumber: StampsReferenceNumber) =
     logger.info(s"Checking approval status for stampsReferenceNumber=$stampsReferenceNumber")
     (stampsReferenceNumber.isNorthernIsland, stampsReferenceNumber.numberString) match
