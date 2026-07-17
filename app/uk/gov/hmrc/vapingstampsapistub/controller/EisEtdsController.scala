@@ -17,10 +17,10 @@
 package uk.gov.hmrc.vapingstampsapistub.controller
 
 import play.api.Logging
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
-import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved, VDSDetails}
+import uk.gov.hmrc.vapingstampsapistub.models.{BusinessApproval, BusinessNotApproved, StampsReferenceNumber, VDSDetails}
 
 import javax.inject.{Inject, Singleton}
 
@@ -55,24 +55,26 @@ class EisEtdsController @Inject() (
         )
     }
 
-  private def splitTheRef(stamp: String): (String, Char, Char, String) = {
-    val stampsReferenceNumberRegex: String = "^(GB|XI)V(A|C|E|F|M|R)[0-9]{7}DS$"
-    stamp match {
-      case stamp if stamp.matches(stampsReferenceNumberRegex) =>
-        val splitRefTuple = stamp.toSeq match {
-          case Seq(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13) =>
-            ("" + c1 + c2, c3, c4, "" + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13)
-          case _ => throw new IllegalArgumentException("Reference does not match expected character length")
-        }
-        splitRefTuple
-      case _ => throw new IllegalArgumentException("Stamp Reference number validation failed")
-    }
-  }
+//  private def splitTheRef(stamp: String): (String, String, String, String) = {
+//    val stampsReferenceNumberRegex: String = "^(GB|XI)V[ACEFMR][0-9]{7}DS$"
+//
+//    val a = "(GB|XI)".r
+//    val b = "V".r
+//    val c = "[ACEFMR]".r
+//    val d = "[0-9]{7}DS".r
+//
+//    stamp match {
+//      case stamp if stamp.matches(stampsReferenceNumberRegex) =>
+//        (a.findFirstIn(stamp).get, b.findFirstIn(stamp).get, c.findFirstIn(stamp).get, d.findFirstIn(stamp).get)
+//      case _ => throw new IllegalArgumentException("Stamp Reference number validation failed")
+//    }
+//  }
 
-  private def processRequest(stampsReferenceNumber: String) =
+  private def processRequest(stampsReferenceNumber: StampsReferenceNumber) =
     logger.info(s"Checking approval status for stampsReferenceNumber=$stampsReferenceNumber")
-    splitTheRef(stampsReferenceNumber) match
-      case ("GB", _, _, "0000200DS") =>
+    (stampsReferenceNumber.isNorthernIsland, stampsReferenceNumber.numberString) match
+
+      case (false, "0000200") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -87,7 +89,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case ("XI", _, _, "0000200DS") =>
+      case (true, "0000200") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -102,7 +104,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case (_, _, _, "0000266DS") =>
+      case (_, "0000266") =>
         Ok(
           Json.toJson(
             BusinessNotApproved(
@@ -110,11 +112,11 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case (_, _, _, "0000401DS") =>
+      case (_, "0000401") =>
         Unauthorized
-      case (_, _, _, "0000403DS") =>
+      case (_, "0000403") =>
         Forbidden
-      case (_, _, _, "0000422DS") =>
+      case (_, "0000422") =>
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -129,7 +131,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case (_, _, _, "1000422DS") =>
+      case (_, "1000422") =>
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -144,7 +146,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case (_, _, _, "2000422DS") =>
+      case (_, "2000422") =>
         UnprocessableEntity(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -159,7 +161,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case (_, _, _, "0000500DS") =>
+      case (_, "0000500") =>
         Ok(
           Json.toJson(
             BusinessApproval(
@@ -174,7 +176,7 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case (_, _, _, "1000503DS") =>
+      case (_, "1000503") =>
         InternalServerError(
           Json.obj(
             "errorDetail" -> Json.obj(
@@ -189,8 +191,8 @@ class EisEtdsController @Inject() (
             )
           )
         )
-      case (_, _, _, "0000503DS") => BadGateway
-      case (_, _, _, "2000503DS") =>
+      case (_, "0000503") => BadGateway
+      case (_, "2000503") =>
         ServiceUnavailable(
           Json.obj(
             "errorDetail" -> Json.obj(
