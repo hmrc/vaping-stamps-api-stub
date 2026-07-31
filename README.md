@@ -18,42 +18,32 @@ sbt 'run 7012'
 To test the stub endpoints for Vaping Stamps
 
 GET
-curl -X GET http://localhost:7012/etds/vaping/stamps/GBVA0000200DS/status
+curl -X GET http://localhost:7012/etds/vaping/stamps/GBVC0000200DS/status
 
 POST
 curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
 -H "Content-Type: application/json" \
 -H "Accept: application/vnd.hmrc.1.0+json" \
--d '{ "vdsEmail": "test@test.com", "stampsReferenceNumber": "GBVA0000200DS" }'
+-d '{ "vdsEmail": "test@test.com", "stampsReferenceNumber": "GBVC0000200DS" }'
 
 ### Example stub data
 | Approval Id   | Status code | Description                                                                          |
 |---------------|-------------|--------------------------------------------------------------------------------------|
-| GBVA0000200DS | 200         | Scenario for successful response with approvalStatus = APPROVED                      |
-| XIVA0000200DS | 200         | Scenario for successful response with approvalStatus = APPROVED                      |
-| GBVA0000266DS | 200         | Scenario for successful response with approvalStatus = NOT_APPROVED                  |
-| XIVA0000266DS | 200         | Scenario for successful response with approvalStatus = NOT_APPROVED                  |
-| GBVA0000401DS | 401         | Scenario for unauthorised request to EIS returns 502 in vaping-stamps-api            |
-| XIVA0000401DS | 401         | Scenario for unauthorised request to EIS returns 502 in vaping-stamps-api            |
-| GBVA0000403DS | 403         | Scenario for forbidden request to EIS returns 502 in vaping-stamps-api               |
-| XIVA0000403DS | 403         | Scenario for forbidden request to EIS returns 502 in vaping-stamps-api               |
-| GBVA0000422DS | 422         | Scenario for missing stampsReferenceNumber in ETDS                                   |
-| XIVA0000422DS | 422         | Scenario for missing stampsReferenceNumber in ETDS                                   |
-| GBVA1000422DS | 422         | Scenario for missing vdsEmail in ETDS                                                |
-| XIVA1000422DS | 422         | Scenario for missing vdsEmail in ETDS                                                |
-| GBVA2000422DS | 422         | Scenario for repeated calls usingthe same stampsReferenceNumber                      |
-| XIVA2000422DS | 422         | Scenario for repeated calls using the same stampsReferenceNumber                     |
-| GBVA0000500DS | 500         | Scenario that returns success response with JSON to trigger 500 in vaping-stamps-api |
-| XIVA0000500DS | 500         | Scenario that returns success response with JSON to trigger 500 in vaping-stamps-api |
-| GBVA0000503DS | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |
-| XIVA0000503DS | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |
-| GBVA1000503DS | 500         | Scenario that returns 500 from EIS and 502 in vaping-stamps-api                      |
-| XIVA1000503DS | 500         | Scenario that returns 500 from EIS and 502 in vaping-stamps-api                      |
-| GBVA2000503DS | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
-| XIVA2000503DS | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
+| GBVC0000200DS | 200         | Scenario for successful response with approvalStatus = APPROVED                      |
+| GBVC0000266DS | 200         | Scenario for successful response with approvalStatus = NOT_APPROVED                  |
+| GBVC0000401DS | 401         | Scenario for unauthorised request to EIS returns 502 in vaping-stamps-api            |
+| GBVC0000403DS | 403         | Scenario for forbidden request to EIS returns 502 in vaping-stamps-api               |
+| GBVC0000422DS | 422         | Scenario for missing stampsReferenceNumber in ETDS                                   |
+| GBVC1000422DS | 422         | Scenario for missing vdsEmail in ETDS                                                |
+| GBVC2000422DS | 422         | Scenario for repeated calls usingthe same stampsReferenceNumber                      |
+| GBVC0000500DS | 500         | Scenario that returns success response with JSON to trigger 500 in vaping-stamps-api |
+| GBVC0000503DS | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |
+| GBVC1000503DS | 500         | Scenario that returns 500 from EIS and 502 in vaping-stamps-api                      |
+| GBVC2000503DS | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
 
-GBVA0000266DS is a Not Approved example response
-*XI* VA0000200DS is a Northern Ireland example response
+GBVC0000266DS is a Not Approved example response
+*XI* VC0000200DS is a Northern Ireland example response
+GBV *C* 0000200DS can be changed to other acceptable chars
 
 ### License
 
