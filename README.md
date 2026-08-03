@@ -10,7 +10,7 @@ The workflow to trigger the stateful test service is as follows:
 
 ## Who/What uses this service?
 
-This stub service is used by the Vaping Duty Stamps API microservices that make calls to EIS/ETDS which is deployed to the External Test environment. The microservices should be configured to connect to this stub instead of a real EIS/ETDS data.
+This stub service is used by the Vaping Duty Stamps API microservice that makes calls to EIS/ETDS which is deployed to the External Test environment. The microservice should be configured to connect to this stub instead of a real EIS/ETDS data.
 
 ## Running the service locally
 
