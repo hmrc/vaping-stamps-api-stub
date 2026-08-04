@@ -43,23 +43,23 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
       }
 
       Seq(
-        (OK, "GBVA0000200DS", successJson),
-        (OK, "GBVA0000266DS", partialSuccessJson),
-        (OK, "XIVA0000200DS", successNIJson),
-        (OK, "XIVA0000266DS", partialSuccessJson),
-        (UNPROCESSABLE_ENTITY, "GBVA0000422DS", unprocessableEntityJson("001")),
-        (UNPROCESSABLE_ENTITY, "XIVA0000422DS", unprocessableEntityJson("001")),
-        (UNPROCESSABLE_ENTITY, "GBVA1000422DS", unprocessableEntityJson("002")),
-        (UNPROCESSABLE_ENTITY, "XIVA1000422DS", unprocessableEntityJson("002")),
-        (UNPROCESSABLE_ENTITY, "GBVA2000422DS", unprocessableEntityJson("003")),
-        (UNPROCESSABLE_ENTITY, "XIVA2000422DS", unprocessableEntityJson("003")),
-        (UNPROCESSABLE_ENTITY, "GBVA1111111DS", unprocessableEntityJson("001")),
-        (UNPROCESSABLE_ENTITY, "XIVA1111111DS", unprocessableEntityJson("001")),
-        (OK, "GBVA0000500DS", businessApprovalFormatErrorJson),
-        (OK, "XIVA0000500DS", businessApprovalFormatErrorJson),
+        (OK, "GBVC0000200DS", successJson),
+        (OK, "GBVC0000266DS", partialSuccessJson),
+        (OK, "XIVC0000200DS", successNIJson),
+        (OK, "XIVC0000266DS", partialSuccessJson),
+        (UNPROCESSABLE_ENTITY, "GBVC0000422DS", unprocessableEntityJson("001")),
+        (UNPROCESSABLE_ENTITY, "XIVC0000422DS", unprocessableEntityJson("001")),
+        (UNPROCESSABLE_ENTITY, "GBVC1000422DS", unprocessableEntityJson("002")),
+        (UNPROCESSABLE_ENTITY, "XIVC1000422DS", unprocessableEntityJson("002")),
+        (UNPROCESSABLE_ENTITY, "GBVC2000422DS", unprocessableEntityJson("003")),
+        (UNPROCESSABLE_ENTITY, "XIVC2000422DS", unprocessableEntityJson("003")),
+        (UNPROCESSABLE_ENTITY, "GBVC1111111DS", unprocessableEntityJson("001")),
+        (UNPROCESSABLE_ENTITY, "XIVC1111111DS", unprocessableEntityJson("001")),
+        (OK, "GBVC0000500DS", businessApprovalFormatErrorJson),
+        (OK, "XIVC0000500DS", businessApprovalFormatErrorJson),
         (
           INTERNAL_SERVER_ERROR,
-          "GBVA1000503DS",
+          "GBVC1000503DS",
           errorJson(
             code = Seq("Error occurred in request to ETDS"),
             message = "Internal Server Error",
@@ -68,15 +68,15 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
         ),
         (
           INTERNAL_SERVER_ERROR,
-          "XIVA1000503DS",
+          "XIVC1000503DS",
           errorJson(
             code = Seq("Error occurred in request to ETDS"),
             message = "Internal Server Error",
             statusCode = "500"
           )
         ),
-        (SERVICE_UNAVAILABLE, "GBVA2000503DS", errorJson(message = "503 error", statusCode = "503")),
-        (SERVICE_UNAVAILABLE, "XIVA2000503DS", errorJson(message = "503 error", statusCode = "503"))
+        (SERVICE_UNAVAILABLE, "GBVC2000503DS", errorJson(message = "503 error", statusCode = "503")),
+        (SERVICE_UNAVAILABLE, "XIVC2000503DS", errorJson(message = "503 error", statusCode = "503"))
       ) foreach { case (statusCode, stampsReferenceNumber, json) =>
         s"return $statusCode when request made for id $stampsReferenceNumber" in {
           val requestBody = Json.obj(
@@ -95,8 +95,8 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
     }
 
     Seq(
-      "GBVA0000401DS",
-      "XIVA0000401DS"
+      "GBVC0000401DS",
+      "XIVC0000401DS"
     ) foreach { stampsReferenceNumber =>
       s"return 401 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
         val requestBody = Json.obj(
@@ -113,8 +113,8 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
     }
 
     Seq(
-      "GBVA0000403DS",
-      "XIVA0000403DS"
+      "GBVC0000403DS",
+      "XIVC0000403DS"
     ) foreach { stampsReferenceNumber =>
       s"return 403 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
         val requestBody = Json.obj(
@@ -131,8 +131,8 @@ class EisEtdsControllerSpec extends AnyWordSpec with Matchers {
     }
 
     Seq(
-      "GBVA0000503DS",
-      "XIVA0000503DS"
+      "GBVC0000503DS",
+      "XIVC0000503DS"
     ) foreach { stampsReferenceNumber =>
       s"return 502 when request for stampsReferenceNumber: $stampsReferenceNumber " in {
         val requestBody = Json.obj(
