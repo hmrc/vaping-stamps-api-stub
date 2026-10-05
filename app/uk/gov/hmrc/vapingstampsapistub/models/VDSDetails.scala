@@ -26,6 +26,6 @@ case class VDSDetails(
 
 object VDSDetails:
   given reads: Reads[VDSDetails] = (
-    (JsPath \ "vdsdetails" \ "vdsEmail").read[String] and
-      (JsPath \ "vdsdetails" \ "stampsReferenceNumber").read[StampsReferenceNumber]
+    (JsPath \ "vdsDetails" \ "vdsEmail").read[String] and
+      (JsPath \ "vdsDetails" \ "stampsReferenceNumber").read[StampsReferenceNumber]
   )(VDSDetails.apply _)
