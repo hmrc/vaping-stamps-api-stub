@@ -16,7 +16,7 @@ This stub service is used by the Vaping Duty Stamps API microservice that makes 
 
 To run the service locally on port 7012:
 
-sbt 'run 7012'
+sbt run
 
 To test the stub endpoints for Vaping Stamps
 
