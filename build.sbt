@@ -16,6 +16,7 @@ lazy val microservice = Project("vaping-stamps-api-stub", file("."))
   .settings(CodeCoverageSettings.settings: _*)
   .settings(
     Compile / unmanagedResourceDirectories += baseDirectory.value / "resources",
+    PlayKeys.playDefaultPort := 7012
   )
 
 lazy val it = project
