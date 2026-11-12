@@ -21,7 +21,7 @@ sbt 'run 7012'
 To test the stub endpoints for Vaping Stamps
 
 POST
-curl -X POST "http://localhost:7012//excise/decision/vapingstamps/profile/v1" \
+curl -X POST "http://localhost:7012/excise/decision/vapingstamps/profile/v1" \
 -H "Content-Type: application/json" \
 -H "Accept: application/vnd.hmrc.1.0+json" \
 -d '{ "vdsEmail": "test@test.com", "stampsReferenceNumber": "GBVC0000200DS" }'
