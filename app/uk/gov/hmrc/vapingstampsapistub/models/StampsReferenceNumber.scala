@@ -28,7 +28,7 @@ case class StampsReferenceNumber(srn: String) {
 }
 
 object StampsReferenceNumber:
-  val regex = "^(GB|XI)V[ACEFMR][0-9]{7}DS$"
+  val regex = "^(GB|XI)V[CEFMR][0-9]{7}DS$"
 
   given reads: Reads[StampsReferenceNumber] = __
     .read[String]

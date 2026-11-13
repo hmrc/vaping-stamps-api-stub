@@ -21,7 +21,7 @@ sbt run
 To test the stub endpoints for Vaping Stamps
 
 POST
-curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
+curl -X POST "http://localhost:7012/excise/decision/vapingstamps/profile/v1" \
 -H "Content-Type: application/json" \
 -H "Accept: application/vnd.hmrc.1.0+json" \
 -d '{ "vdsEmail": "test@test.com", "stampsReferenceNumber": "GBVC0000200DS" }'
@@ -40,6 +40,20 @@ curl -X POST "http://localhost:7012/etds/vaping/stamps/status" \
 | GBVC0000503DS           | 502         | Scenario that returns 502 from EIS and 502 in vaping-stamps-api                      |
 | GBVC1000503DS           | 500         | Scenario that returns 500 from EIS and 502 in vaping-stamps-api                      |
 | GBVC2000503DS           | 503         | Scenario that returns 503 from EIS and 502 in vaping-stamps-api                      |
+
+The 'GBVC' prefix can end with different letters that refer to Entities that have requested the service. The below table display the mapping between these letters and entities.
+
+| Prefix         | Entity                  |
+|----------------|-------------------------|
+| GBVC           | Customs Warehouse       |
+| GBVE           | Excise Warehouse        |
+| GBVF           | Freeport                |
+| GBVM           | Manufacturer            |
+| GBVR           | UK rep                  |
+| XIV[C,E,F,M,R] | Northern Ireland entity |
+
+**NOTE**: 400 error scenarios can be simulated by sending requests containing missing or invalid HTTP headers and request field values.The response schema must be submitted as JSON and contain the following details.
+
 
 **GB**VC0000200DS is the standard example response in the UK
 
