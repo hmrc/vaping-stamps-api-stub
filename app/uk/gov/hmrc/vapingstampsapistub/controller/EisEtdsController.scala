@@ -64,12 +64,12 @@ class EisEtdsController @Inject() (
           Json.toJson(
             BusinessApproval(
               approvalStatus = "approved",
-              businessName = "Example Trading Ltd",
-              addressLine1 = "10 Example Street",
-              addressLine2 = Some("London"),
-              postCode = "SW1A 1AA",
-              contactName = Some("Jane Smith"),
-              telephoneNumber = Some("+44 20 7946 0123"),
+              businessName = "Test Company",
+              addressLine1 = "ABC Street",
+              addressLine2 = Some("AB Town"),
+              postCode = "ZZ1 1ZZ",
+              contactName = Some("Firstname Surname"),
+              telephoneNumber = Some("+44 20 7123 4567"),
               stampsThreshold = 500000
             )
           )
@@ -79,12 +79,12 @@ class EisEtdsController @Inject() (
           Json.toJson(
             BusinessApproval(
               approvalStatus = "approved",
-              businessName = "Example Trading Ltd",
-              addressLine1 = "10 Example Street",
-              addressLine2 = Some("Belfast"),
-              postCode = "BT1 1AA",
-              contactName = Some("Jane Smith"),
-              telephoneNumber = Some("+44 20 7946 0123"),
+              businessName = "Test Company",
+              addressLine1 = "ABC Street",
+              addressLine2 = Some("NI Town"),
+              postCode = "NI1 1ZZ",
+              contactName = Some("Firstname Surname"),
+              telephoneNumber = Some("+44 20 7123 4567"),
               stampsThreshold = 500000
             )
           )
@@ -151,12 +151,12 @@ class EisEtdsController @Inject() (
           Json.toJson(
             BusinessApproval(
               approvalStatus = "REVOKED",
-              businessName = "Example Trading Ltd",
-              addressLine1 = "10 Example Street",
-              addressLine2 = Some("London"),
-              postCode = "SW1A 1AA",
-              contactName = Some("Jane Smith"),
-              telephoneNumber = Some("+44 20 7946 0123"),
+              businessName = "Test Company",
+              addressLine1 = "ABC Street",
+              addressLine2 = Some("AB Town"),
+              postCode = "ZZ1 1ZZ",
+              contactName = Some("Firstname Surname"),
+              telephoneNumber = Some("+44 20 7123 4567"),
               stampsThreshold = 500000
             )
           )
